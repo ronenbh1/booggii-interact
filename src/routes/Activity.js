@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useState, useRef, useEffect } from 'react'
+import { useState } from 'react'
 
 import Page from '../layout/Page'
 
@@ -16,20 +16,18 @@ import AddIcon from '@material-ui/icons/Add'
 
 import Walking from '@material-ui/icons/DirectionsWalkOutlined'
 import Sitting from '@material-ui/icons/WeekendOutlined'
-import Elevator from '@material-ui/icons/ElevatorOutlined'
 import Music from '@material-ui/icons/HeadsetOutlined'
-import Flight from '@material-ui/icons/FlightOutlined'
+// import Flight from '@material-ui/icons/FlightOutlined'
 import Hiking from '@material-ui/icons/FollowTheSignsOutlined'
 import Dining from '@material-ui/icons/DinnerDiningOutlined'
 import InBed from '@material-ui/icons/KingBedOutlined'
 import Driving from '@material-ui/icons/DirectionsCarFilledOutlined'
 import WithFamily from '@material-ui/icons/GroupsOutlined'
-import Yoga from '@material-ui/icons/SelfImprovementOutlined'
-import Sports from '@material-ui/icons/SportsHandballOutlined'
-import lightBlue from '@material-ui/core/colors/lightBlue'
+// import Yoga from '@material-ui/icons/SelfImprovementOutlined'
+// import Sports from '@material-ui/icons/SportsHandballOutlined'
+// import lightBlue from '@material-ui/core/colors/lightBlue'
 import lightGreen from '@material-ui/core/colors/lightGreen'
 import red from '@material-ui/core/colors/red'
-import { SportsRugbySharp } from '@material-ui/icons'
 
 const Section = ({ title, children }) => {
   const t = useTranslation()
