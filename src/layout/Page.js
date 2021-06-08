@@ -13,13 +13,6 @@ import { ReactComponent as Logo } from '../assets/logo.svg'
 import MenuIcon from '@material-ui/icons/MenuOutlined'
 import Typography from '@material-ui/core/Typography'
 
-const styles = {
-  paper: {
-    height: '100vh',
-    position: 'relative',
-  },
-}
-
 const Toolbar = ({ name }) => {
   const dispatch = useDispatch()
   const open = useDrawer()
@@ -71,11 +64,25 @@ const Toolbar = ({ name }) => {
   )
 }
 
-const Page = ({ name, children, ...rest }) => (
-  <Paper elevation={4} css={styles.paper} {...rest}>
-    <Toolbar {...{ name }} />
-    {children}
-  </Paper>
-)
+const Page = ({ name, children, ...rest }) => {
+  const styles = {
+    paper: {
+      height: '100vh',
+      overflow: 'scroll',
+      position: 'relative',
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    afterToolbar: {
+      flexGrow: '1',
+    },
+  }
+  return (
+    <Paper elevation={4} css={styles.paper} {...rest}>
+      <Toolbar {...{ name }} />
+      <div css={styles.afterToolbar}>{children}</div>
+    </Paper>
+  )
+}
 
 export default Page

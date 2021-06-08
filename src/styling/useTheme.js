@@ -14,6 +14,8 @@ const useTheme = ({ mode, direction } = {}) => {
     const colors = {
       light: {
         primary: lightBlue.A400,
+        complimentary1: '#ff9500',
+        complimentary2: '#ff1500',
         secondary: '#ff5500',
         paper: '#fff',
         backdrop: 'rgba(0, 0, 0, 0.05)',
@@ -28,6 +30,8 @@ const useTheme = ({ mode, direction } = {}) => {
       },
       dark: {
         primary: lightBlue.A400,
+        complimentary1: '#ff9500',
+        complimentary2: '#ff1500',
         secondary: '#ff5500',
         paper: '#3b3b3b',
         backdrop: 'rgba(0, 0, 0, 0.05)',
@@ -53,6 +57,12 @@ const useTheme = ({ mode, direction } = {}) => {
         },
         secondary: {
           main: colors.light.secondary,
+        },
+        complimentary1: {
+          main: colors.light.complimentary1,
+        },
+        complimentary2: {
+          main: colors.light.complimentary1,
         },
         background: {
           paper: colors[mode].paper,
