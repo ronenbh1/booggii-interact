@@ -1,0 +1,21 @@
+{
+  "noAuth": "Authorization issue. Please contact support",
+  "tokenExpired": "Token has expired",
+  "noSucnFile": "No such file",
+  "hardFailure": "Network issues experienced. Reload and retry",
+  "contentError": "Content error",
+  "passwordRequired": "Passwqord required",
+  "usernameRequired": "Username required",
+  "lang": "Language",
+  "mode": "Mode",
+  "dashboard": "Dashboard",
+  "activity": "Activity",
+  "signUp": "Sign up",
+  "forgotPassword": "Forgot password?",
+  "rememberMe": "Remember me",
+  "password": "Password",
+  "username": "User name",
+  "signIn": "Sign in",
+  "appName": "Puzzle",
+  "logout": "Logout"
+}

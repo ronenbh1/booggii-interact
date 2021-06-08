@@ -1,0 +1,21 @@
+{
+  "noAuth": "אנא היכנסו עם משתמש וסיסמה תקינים",
+  "tokenExpired": "פג תוקף האישור. יש להיכנס מחדש",
+  "noSucnFile": "הקובץ לא נמצא",
+  "hardFailure": "זמנית אין גישה לסרבר. אנא פנו לעזרה",
+  "contentError": "התגלתה בעיה בנתונים",
+  "passwordRequired": "נא מלאו סיסמה",
+  "usernameRequired": "נא מלאו שם משתמש",
+  "lang": "שפה",
+  "mode": "מצב",
+  "dashboard": "בקרה",
+  "activity": "פעילות",
+  "signUp": "הרשמה",
+  "forgotPassword": "שכחת סיסמה?",
+  "rememberMe": "זכרו אותי",
+  "password": "סיסמה",
+  "username": "שם משתמש",
+  "signIn": "כניסה",
+  "appName": "Booggii",
+  "logout": "יציאה"
+}
