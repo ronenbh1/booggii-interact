@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
+import useTheme from '../styling/useTheme'
 
 import Page from '../layout/Page'
 
@@ -29,7 +30,7 @@ import WithFamily from '@material-ui/icons/GroupsOutlined'
 import lightGreen from '@material-ui/core/colors/lightGreen'
 import red from '@material-ui/core/colors/red'
 
-const Section = ({ title, children }) => {
+const Section = ({ title, children, center = false }) => {
   const t = useTranslation()
 
   const styles = {
@@ -37,7 +38,6 @@ const Section = ({ title, children }) => {
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'flex-start',
-      // backgroundColor: lightBlue[50],
       backgroundColor: 'rgba(0, 0, 0, 0.05)',
     },
     title: {
@@ -49,7 +49,8 @@ const Section = ({ title, children }) => {
     content: {
       flexGrow: '1',
       display: 'flex',
-      justifyContent: 'space-evenly',
+      justifyContent: center ? 'center' : 'space-evenly',
+      gap: center ? '0.5rem' : 'unset',
       alignItems: 'center',
     },
   }
@@ -66,6 +67,21 @@ const Activity = () => {
   const t = useTranslation()
   const [event, setEvent] = useState(false)
 
+  const sentiments = [
+    { name: 'verySad', icon: <VerySad /> },
+    { name: 'sad', icon: <Sad /> },
+    { name: 'neutral', icon: <Neutral /> },
+    { name: 'happy', icon: <Happy /> },
+    { name: 'veryHappy', icon: <VeryHappy /> },
+  ]
+  const [sentiment, setSentiment] = useState()
+  const updateSentiment = clicked => () => {
+    if (clicked === sentiment) {
+      setSentiment(null)
+    } else {
+      setSentiment(clicked)
+    }
+  }
   const toggleEvent = () => {
     setEvent(eventState => !eventState)
   }
@@ -113,10 +129,10 @@ const Activity = () => {
       fontSize: '1rem',
       position: 'absolute',
       start: {
-        left: '1rem',
+        left: '0rem',
       },
       finish: {
-        right: '1rem',
+        right: '0rem',
       },
     },
     input: {
@@ -124,11 +140,17 @@ const Activity = () => {
       border: '1px solid rgba(0, 0, 0, 0.2)',
       borderRadius: '10px',
       start: {
-        background: lightGreen[100],
+        background: lightGreen[200],
       },
       finish: {
-        background: red[100],
+        background: red[200],
       },
+    },
+    firstAddIcon: {
+      transform: 'translate(-0.8rem, -0.8rem) !important',
+    },
+    secondAddIcon: {
+      transform: 'translate(0.8rem, 0.8rem) !important',
     },
   }
 
@@ -136,26 +158,21 @@ const Activity = () => {
     <Page name="activity">
       <div css={styles.root}>
         <Section title="sentiment">
-          <IconButton css={styles.iconButton}>
-            <VerySad />
-          </IconButton>
-          <IconButton css={styles.iconButton}>
-            <Sad />
-          </IconButton>
-          <IconButton css={styles.iconButton}>
-            <Neutral />
-          </IconButton>
-          <IconButton css={styles.iconButton}>
-            <Happy />
-          </IconButton>
-          <IconButton css={styles.iconButton}>
-            <VeryHappy />
-          </IconButton>
+          {sentiments.map(({ name, icon }) => (
+            <Sentiment
+              key={name}
+              {...{ name, icon, sentiment, updateSentiment }}
+            />
+          ))}
         </Section>
 
-        <Section title="event">
+        <Section title="event" center>
           <Fab css={styles.fab} onClick={toggleEvent}>
             <AddIcon />
+          </Fab>
+          <Fab css={styles.fab} onClick={toggleEvent}>
+            <AddIcon css={styles.firstAddIcon} />
+            <AddIcon css={styles.secondAddIcon} />
           </Fab>
           <div css={{ ...styles.picker, ...styles.picker.start }}>
             <input
@@ -164,6 +181,7 @@ const Activity = () => {
               id="appt"
               name="appt"
               value="06:38"
+              onChange={() => {}}
             ></input>
           </div>
           <div css={{ ...styles.picker, ...styles.picker.finish }}>
@@ -173,6 +191,7 @@ const Activity = () => {
               id="appt"
               name="appt"
               value="06:55"
+              onChange={() => {}}
             ></input>
           </div>
         </Section>
@@ -226,3 +245,35 @@ const Activity = () => {
 }
 
 export default Activity
+
+const Sentiment = ({ name, icon, sentiment, updateSentiment }) => {
+  const theme = useTheme()
+  const Icon = icon
+
+  const styles = {
+    iconButton: {
+      '& svg': {
+        fontSize: '15vw',
+      },
+      '& .MuiIconButton-label': {
+        display: 'flex',
+        flexDirection: 'column',
+      },
+    },
+    selectedSentiment: {
+      '& svg': {
+        fill: theme.palette.primary.main,
+      },
+    },
+  }
+  return (
+    <IconButton
+      css={{
+        ...styles.iconButton,
+      }}
+      onClick={updateSentiment(name)}
+    >
+      <div css={name === sentiment ? styles.selectedSentiment : {}}>{icon}</div>
+    </IconButton>
+  )
+}

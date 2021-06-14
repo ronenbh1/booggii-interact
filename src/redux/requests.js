@@ -9,8 +9,33 @@ import requestsApi from '../api/requestsApi'
 // * normalization
 const requestsAdapter = createEntityAdapter({
   selectId: ({ id }) => id,
-  sortComparer: (a, b) => Number(b.score) - Number(a.score),
+  sortComparer: (a, b) => a.id.localeCompare(b.id),
 })
+
+// !Error handling
+// The most up-to-date redux code is in Schedule
+// ~ Players
+//  There are 3 players in the fetch game:
+//  - caller component, via its useEffect
+//  - this file's action/payload creator and reducer
+//  - the respective xApi file
+// ~ Api failures
+//  - are identified in the respective xApi,
+//  - throw there a POJO object (instead of Error object, which is not redux seralizable)
+//  - reach this file's catch clause below
+//  - don't reach the [fetchx.fullfilled] below but the [fetchx.rejected] instead
+//  - if caller useEffect then wants to know about / react to the error
+//    it should call 'unwrapResult' then 'catch',
+//    or else the error is handled by [fetchx.rejected] and swallowed there.
+//  - [fetchx.rejected] reports the error.message so it gets noticed even if swallowed
+//  - either way, [fetchx.rejected] records the error (as a POJO object) in the entity's error key
+//  - which gets noticed by useNotification and renders a snackbar to the user.
+// ~ Issues
+//  - are identified by some post processor,
+//  - can be set either in xApi, the fetchx below or the[fetchx.fulfilled].
+//  - either way, they should be one of [fetchx.fullfilled]'s arguments,
+//    so it can add them to the list of issues on the entity's issues key.
+//  - unlike api failures, issues don't require user's attention nor any bugfix.
 
 // * thunk
 export const fetchRequests = createAsyncThunk(
@@ -75,7 +100,12 @@ const requestsSlice = createSlice({
       }
     },
 
-    [fetchRequests.rejected]: (state, { meta: { requestId }, payload }) => {
+    [fetchRequests.rejected]: (
+      state,
+      { meta: { requestId }, payload, error }
+    ) => {
+      console.error('fetchDeliveryPlans Rejected:')
+      if (error?.message) console.error(error.message)
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.currentRequestId = undefined
         state.loading = 'idle'

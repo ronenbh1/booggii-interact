@@ -196,11 +196,15 @@ const styles = {
 // ? Dynamic implementation of react-window that will render any entity regardless of properties
 // ? as long as it gets the following props:
 //
+// ~ selectOne
+//   dispatched when a row is selected - if non empty
+// ~ selectMulti
+//   dispatched when a row is selected - if non empty (only one of the 2 above can be non empty)
 // ~ selectEntities
 //   entity's own selectEntities selector that exposes { isLoading, ids, selectedId }
 // ~ selectEntityById
 //   entity's own selectEntityById selector
-// ~ prooperties
+// ~ properties
 //   an array with the properties to be displayed. Each property is an object with:
 //      ~ name (mandatory)
 //        a path in the entity object, as deep as needed. It can include array positions.
@@ -217,6 +221,8 @@ const styles = {
 //   name, color and icon, with an optional 'filters' prop that has a list of filter names.
 //
 const Table = ({
+  selectOne,
+  selectMultiple,
   selectEntities,
   selectEntityById,
   properties,
