@@ -30,6 +30,10 @@ import WithFamily from '@material-ui/icons/GroupsOutlined'
 import lightGreen from '@material-ui/core/colors/lightGreen'
 import red from '@material-ui/core/colors/red'
 
+import { API } from 'aws-amplify';
+import { createEvent as createEventMutation, deleteEvent as deleteEventMutation } from '../graphql/mutations';
+
+
 const Section = ({ title, children, center = false }) => {
   const t = useTranslation()
 
@@ -52,6 +56,7 @@ const Section = ({ title, children, center = false }) => {
       justifyContent: center ? 'center' : 'space-evenly',
       gap: center ? '0.5rem' : 'unset',
       alignItems: 'center',
+      flexWrap: 'wrap',
     },
   }
 
@@ -63,9 +68,13 @@ const Section = ({ title, children, center = false }) => {
   )
 }
 
+const initialFormState = { name: '', description: '' }
+
 const Activity = () => {
   const t = useTranslation()
   const [event, setEvent] = useState(false)
+  const [events, setEvents] = useState([]);
+  const [formData, setFormData] = useState(initialFormState);
 
   const sentiments = [
     { name: 'verySad', icon: <VerySad /> },
@@ -79,11 +88,27 @@ const Activity = () => {
     if (clicked === sentiment) {
       setSentiment(null)
     } else {
+      createEvent({clicked, description: new Date()})
       setSentiment(clicked)
     }
   }
   const toggleEvent = () => {
     setEvent(eventState => !eventState)
+  }
+
+  const activities = [
+    { name: 'walking', icon: <Walking /> },
+    { name: 'sitting', icon: <Sitting /> },
+    { name: 'dining', icon: <Dining /> },
+    { name: 'inBed', icon: <InBed /> },
+    { name: 'listening', icon: <Music /> },
+    { name: 'driving', icon: <Driving /> },
+    { name: 'hiking', icon: <Hiking /> },
+    { name: 'withFamily', icon: <WithFamily /> },
+  ]
+
+  const updateActivity = clicked => () => {
+    createEvent({clicked, description: new Date()})
   }
 
   const styles = {
@@ -154,6 +179,13 @@ const Activity = () => {
     },
   }
 
+  async function createEvent() {
+    if (!formData.name || !formData.description) return;
+    await API.graphql({ query: createEventMutation, variables: { input: formData } });
+    setEvents([ ...events, formData ]);
+    // setFormData(initialFormState);
+  }
+
   return (
     <Page name="activity">
       <div css={styles.root}>
@@ -196,48 +228,13 @@ const Activity = () => {
           </div>
         </Section>
 
-        <Section title="activity">
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              justifyContent: 'space-evenly',
-              gap: '2rem',
-            }}
-          >
-            <IconButton css={styles.iconButton}>
-              <Walking />
-              <div css={styles.caption}>{t('walking')}</div>
-            </IconButton>
-            <IconButton css={styles.iconButton}>
-              <Sitting />
-              <div css={styles.caption}>{t('sitting')}</div>
-            </IconButton>
-            <IconButton css={styles.iconButton}>
-              <Dining />
-              <div css={styles.caption}>{t('dining')}</div>
-            </IconButton>
-            <IconButton css={styles.iconButton}>
-              <InBed />
-              <div css={styles.caption}>{t('inBed')}</div>
-            </IconButton>
-            <IconButton css={styles.iconButton}>
-              <Music />
-              <div css={styles.caption}>{t('listening')}</div>
-            </IconButton>
-            <IconButton css={styles.iconButton}>
-              <Driving />
-              <div css={styles.caption}>{t('driving')}</div>
-            </IconButton>
-            <IconButton css={styles.iconButton}>
-              <Hiking />
-              <div css={styles.caption}>{t('hiking')}</div>
-            </IconButton>
-            <IconButton css={styles.iconButton}>
-              <WithFamily />
-              <div css={styles.caption}>{t('withFamily')}</div>
-            </IconButton>
-          </div>
+        <Section title="activity" style={{gap: '2rem'}}>
+          {activities.map(({ name, icon }) => (
+            <ActivityButton
+              key={name}
+              {...{ name, icon, updateActivity }}
+            />
+          ))}
         </Section>
       </div>
     </Page>
@@ -274,6 +271,40 @@ const Sentiment = ({ name, icon, sentiment, updateSentiment }) => {
       onClick={updateSentiment(name)}
     >
       <div css={name === sentiment ? styles.selectedSentiment : {}}>{icon}</div>
+    </IconButton>
+  )
+}
+
+const ActivityButton = ({ name, icon, updateActivity }) => {
+  const theme = useTheme()
+  const Icon = icon
+  const t = useTranslation()
+
+  const styles = {
+    iconButton: {
+      '& svg': {
+        fontSize: '15vw',
+      },
+      '& .MuiIconButton-label': {
+        display: 'flex',
+        flexDirection: 'column',
+      },
+    },
+    selectedActivity: {
+      '& svg': {
+        fill: theme.palette.primary.main,
+      },
+    },
+  }
+  return (
+    <IconButton
+      css={{
+        ...styles.iconButton,
+      }}
+      onClick={updateActivity(name)}
+    >
+      <div css={styles.caption}>{t(name)}</div>
+      <div>{icon}</div>
     </IconButton>
   )
 }
