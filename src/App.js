@@ -24,7 +24,9 @@ import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import useTheme from './styling/useTheme'
 
-export default function App() {
+import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
+
+function App() {
   const { mode } = useMode()
   const { locale, direction } = useLocale()
   const theme = useTheme({ mode, direction })
@@ -67,6 +69,9 @@ export default function App() {
           </ErrorBoundary>
         </ThemeProvider>
       </IntlProvider>
+      <AmplifySignOut />
     </HelmetProvider>
   )
 }
+
+export default withAuthenticator(App);
