@@ -54,7 +54,7 @@ const Section = ({ title, children, center = false }) => {
       flexGrow: '1',
       display: 'flex',
       justifyContent: center ? 'center' : 'space-evenly',
-      gap: center ? '0.5rem' : 'unset',
+      gap: title === 'event' ? '0.5rem' : title === 'activity' ? '2rem' : 'unset',
       alignItems: 'center',
       flexWrap: 'wrap',
     },
@@ -63,7 +63,7 @@ const Section = ({ title, children, center = false }) => {
   return (
     <div css={styles.root}>
       <div css={styles.title}>{t(title)}</div>
-      <div css={styles.content}>{children}</div>
+      <div css={styles.content} >{children}</div>
     </div>
   )
 }
@@ -71,6 +71,7 @@ const Section = ({ title, children, center = false }) => {
 const initialFormState = { name: '', description: '' }
 
 const Activity = () => {
+  console.log("start")
   const t = useTranslation()
   const [event, setEvent] = useState(false)
   const [events, setEvents] = useState([]);
@@ -86,9 +87,15 @@ const Activity = () => {
   const [sentiment, setSentiment] = useState()
   const updateSentiment = clicked => () => {
     if (clicked === sentiment) {
+      setFormData({ ...formData, 'name': clicked})
+      setFormData({ ...formData, 'description': "new Date()"})
+      console.log(formData)
       setSentiment(null)
     } else {
-      createEvent({clicked, description: new Date()})
+      setFormData({ ...formData, 'name': clicked})
+      setFormData({ ...formData, 'description': "new Date()"})
+      console.log(formData)
+      createEvent()
       setSentiment(clicked)
     }
   }
@@ -108,7 +115,10 @@ const Activity = () => {
   ]
 
   const updateActivity = clicked => () => {
-    createEvent({clicked, description: new Date()})
+    console.log(clicked)
+    setFormData({ ...formData, 'description': "new Date()"})
+    setFormData({ ...formData, 'name': clicked})
+    createEvent()
   }
 
   const styles = {
@@ -147,9 +157,7 @@ const Activity = () => {
         },
       },
     }),
-    caption: {
-      fontSize: '1rem',
-    },
+ 
     picker: {
       fontSize: '1rem',
       position: 'absolute',
@@ -177,13 +185,20 @@ const Activity = () => {
     secondAddIcon: {
       transform: 'translate(0.8rem, 0.8rem) !important',
     },
+    activitySection: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'space-evenly',
+      gap: '2rem',
+    }
   }
 
   async function createEvent() {
+    console.log(formData)
     if (!formData.name || !formData.description) return;
     await API.graphql({ query: createEventMutation, variables: { input: formData } });
     setEvents([ ...events, formData ]);
-    // setFormData(initialFormState);
+    setFormData(initialFormState);
   }
 
   return (
@@ -198,7 +213,7 @@ const Activity = () => {
           ))}
         </Section>
 
-        <Section title="event" center>
+        <Section title="event">
           <Fab css={styles.fab} onClick={toggleEvent}>
             <AddIcon />
           </Fab>
@@ -228,7 +243,7 @@ const Activity = () => {
           </div>
         </Section>
 
-        <Section title="activity" style={{gap: '2rem'}}>
+        <Section title="activity">
           {activities.map(({ name, icon }) => (
             <ActivityButton
               key={name}
@@ -295,6 +310,9 @@ const ActivityButton = ({ name, icon, updateActivity }) => {
         fill: theme.palette.primary.main,
       },
     },
+       caption: {
+      fontSize: '1rem',
+    },
   }
   return (
     <IconButton
@@ -303,8 +321,8 @@ const ActivityButton = ({ name, icon, updateActivity }) => {
       }}
       onClick={updateActivity(name)}
     >
-      <div css={styles.caption}>{t(name)}</div>
       <div>{icon}</div>
+      <div css={styles.caption}>{t(name)}</div>
     </IconButton>
   )
 }
