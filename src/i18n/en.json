@@ -1,5 +1,12 @@
 {
   "walking": "Walking",
+  "layDown": "Lay down",
+  "riding": "Riding",
+  "closedSpace": "Closed space",
+  "sleeping": "Sleeping",
+  "media": "Media",
+  "effort": "Effort",
+  "crowded": "Crowded",
   "sitting": "Sitting",
   "dining": "Dining",
   "inBed": "In bed",

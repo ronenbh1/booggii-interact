@@ -15,17 +15,20 @@ import VeryHappy from '@material-ui/icons/SentimentVerySatisfied'
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 
-import Walking from '@material-ui/icons/DirectionsWalkOutlined'
-import Sitting from '@material-ui/icons/WeekendOutlined'
-import Music from '@material-ui/icons/HeadsetOutlined'
-// import Flight from '@material-ui/icons/FlightOutlined'
-import Hiking from '@material-ui/icons/FollowTheSignsOutlined'
-import Dining from '@material-ui/icons/DinnerDiningOutlined'
-import InBed from '@material-ui/icons/KingBedOutlined'
-import Driving from '@material-ui/icons/DirectionsCarFilledOutlined'
-import WithFamily from '@material-ui/icons/GroupsOutlined'
-// import Yoga from '@material-ui/icons/SelfImprovementOutlined'
-// import Sports from '@material-ui/icons/SportsHandballOutlined'
+import Walking from '@material-ui/icons/DirectionsWalk'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faHorse as Riding } from '@fortawesome/free-solid-svg-icons'
+import Riding from '@material-ui/icons/BedroomBaby'
+import Dining from '@material-ui/icons/Fastfood'
+import Sleeping from '@material-ui/icons/Hotel'
+import Driving from '@material-ui/icons/DirectionsCarFilled'
+import WithFamily from '@material-ui/icons/FamilyRestroom'
+import Media from '@material-ui/icons/Theaters'
+import LayDown from '@material-ui/icons/AirlineSeatFlatAngled'
+// import ClosedSpace from '@material-ui/icons/ExitToApp'
+import ClosedSpace from '@material-ui/icons/DisabledByDefault'
+import Effort from '@material-ui/icons/FitnessCenter'
+import Crowded from '@material-ui/icons/Groups'
 // import lightBlue from '@material-ui/core/colors/lightBlue'
 import lightGreen from '@material-ui/core/colors/lightGreen'
 import red from '@material-ui/core/colors/red'
@@ -105,13 +108,17 @@ const Activity = () => {
 
   const activities = [
     { name: 'walking', icon: <Walking /> },
-    { name: 'sitting', icon: <Sitting /> },
+    { name: 'layDown', icon: <LayDown /> },
     { name: 'dining', icon: <Dining /> },
-    { name: 'inBed', icon: <InBed /> },
-    { name: 'listening', icon: <Music /> },
+    // { name: 'riding', icon: <FontAwesomeIcon icon={Riding} /> },
+    { name: 'riding', icon: <Riding /> },
     { name: 'driving', icon: <Driving /> },
-    { name: 'hiking', icon: <Hiking /> },
+    { name: 'closedSpace', icon: <ClosedSpace /> },
     { name: 'withFamily', icon: <WithFamily /> },
+    { name: 'sleeping', icon: <Sleeping /> },
+    { name: 'media', icon: <Media /> },
+    { name: 'effort', icon: <Effort /> },
+    { name: 'crowded', icon: <Crowded /> },
   ]
 
   const updateActivity = clicked => () => {

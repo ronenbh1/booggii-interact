@@ -1,5 +1,12 @@
 {
   "walking": "הולך",
+  "layDown": "נח",
+  "riding": "רוכב",
+  "closedSpace": "מקום סגור",
+  "sleeping": "ישן",
+  "media": "מדיה",
+  "effort": "מתאמץ",
+  "crowded": "מקום הומה",
   "sitting": "יושב",
   "dining": "אוכל",
   "inBed": "במיטה",
