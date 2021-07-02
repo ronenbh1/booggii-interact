@@ -13,7 +13,8 @@
     },
     "categories": {
       "auth": {
-        "booggiiinteract375ad7f3": {}
+        "booggiiinteract375ad7f3": {},
+        "userPoolGroups": {}
       }
     }
   }
