@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@aws-amplify/ui-react": "^1.2.3",
+    "@aws-amplify/ui-react": "latest",
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
@@ -15,7 +15,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "aws-amplify": "^4.1.1",
+    "aws-amplify": "latest",
     "axios": "^0.21.1",
     "dotenv": "^10.0.0",
     "lodash.get": "^4.4.2",
