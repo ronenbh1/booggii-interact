@@ -70,3 +70,9 @@ self.addEventListener('message', (event) => {
 });
 
 // Any other custom service worker logic can go here.
+
+self.addEventListener('install', (event) => {
+  const urls = [/* ... */];
+  const cacheName = cacheNames.runtime;
+  event.waitUntil(caches.open(cacheName).then((cache) => cache.addAll(urls)));
+});
