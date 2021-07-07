@@ -151,7 +151,7 @@ const Activity = () => {
         flexDirection: 'column',
       },
     },
-    fab: theme => ({
+    majorEvent: theme => ({
       borderRadius: '50%',
       backgroundColor: event
         ? `${red[500]} !important`
@@ -172,21 +172,44 @@ const Activity = () => {
         },
       },
     }),
- 
+    moderateEvent: theme => ({
+      borderRadius: '50%',
+      backgroundColor: event
+        ? `${red[500]} !important`
+        : `${lightGreen[500]} !important`,
+      color: 'white',
+      borderColor: 'transparent',
+      width: '15vw',
+      height: '15vw',
+      border: '5px solid white',
+      '& > .MuiFab-label': {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        '& > svg': {
+          fontSize: '2.5rem',
+          transform: `rotate(${event ? 45 : 0}deg)`,
+          transition: 'transform 0.25s',
+        },
+      },
+    }),
+
     picker: {
+      display: 'flex',
+      flexWrap: 'wrap',
       fontSize: '1rem',
       position: 'absolute',
       start: {
-        left: '0rem',
+        right: '0rem',
       },
       finish: {
-        right: '0rem',
+        left: '0rem',
       },
     },
     input: {
       display: 'flex',
       flexWrap: 'wrap',
-      padding: '0.0rem',
+      padding: '0.3rem',
       border: '1px solid rgba(0, 0, 0, 0.2)',
       borderRadius: '10px',
       start: {
@@ -231,10 +254,10 @@ const Activity = () => {
         </Section>
 
         <Section title="event" center="true">
-          <Fab css={styles.fab} onClick={toggleEvent}>
+          <Fab css={styles.moderateEvent} onClick={toggleEvent}>
             <AddIcon />
           </Fab>
-          <Fab css={styles.fab} onClick={toggleEvent}>
+          <Fab css={styles.majorEvent} onClick={toggleEvent}>
             <AddIcon css={styles.firstAddIcon} />
             <AddIcon css={styles.secondAddIcon} />
           </Fab>
