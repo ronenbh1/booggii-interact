@@ -59,7 +59,7 @@ const Section = ({ title, children, center = false }) => {
       flexGrow: '1',
       display: 'flex',
       justifyContent: center ? 'center' : 'space-evenly',
-      gap: title === 'event' ? '0.5rem' : title === 'activity' ? '2rem' : 'unset',
+      gap: title === 'event' ? '1rem' : title === 'activity' ? '2rem' : 'unset',
       alignItems: 'center',
       flexWrap: 'wrap',
     },
@@ -184,7 +184,9 @@ const Activity = () => {
       },
     },
     input: {
-      padding: '0.3rem',
+      display: 'flex',
+      flexWrap: 'wrap',
+      padding: '0.0rem',
       border: '1px solid rgba(0, 0, 0, 0.2)',
       borderRadius: '10px',
       start: {
@@ -228,7 +230,7 @@ const Activity = () => {
           ))}
         </Section>
 
-        <Section title="event">
+        <Section title="event" center="true">
           <Fab css={styles.fab} onClick={toggleEvent}>
             <AddIcon />
           </Fab>
