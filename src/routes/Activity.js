@@ -36,6 +36,8 @@ import red from '@material-ui/core/colors/red'
 import { API } from 'aws-amplify';
 import { createEvent as createEventMutation, deleteEvent as deleteEventMutation } from '../graphql/mutations';
 
+import { DataStore } from '@aws-amplify/datastore';
+import { Event } from '../models';
 
 const Section = ({ title, children, center = false }) => {
   const t = useTranslation()
@@ -121,11 +123,17 @@ const Activity = () => {
     { name: 'crowded', icon: <Crowded /> },
   ]
 
-  const updateActivity = clicked => () => {
+  const updateActivity = clicked => async () => {
     console.log(clicked)
-    setFormData({ ...formData, 'description': "new Date()"})
-    setFormData({ ...formData, 'name': clicked})
-    createEvent()
+    await DataStore.save(
+      new Event({
+      "name": clicked,
+      "description": "testing"
+      })
+    );
+    // setFormData({ ...formData, 'description': "new Date()"})
+    // setFormData({ ...formData, 'name': clicked})
+    // createEvent()
   }
 
   const styles = {
