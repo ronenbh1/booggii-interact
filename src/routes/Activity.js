@@ -32,7 +32,9 @@ import Crowded from '@material-ui/icons/Groups'
 // import lightBlue from '@material-ui/core/colors/lightBlue'
 import lightGreen from '@material-ui/core/colors/lightGreen'
 import red from '@material-ui/core/colors/red'
-
+// import TextField from '@material-ui/pickers';
+import TextField from '@material-ui/core/TextField';
+import { makeStyles } from '@material-ui/core/styles';
 import { API } from 'aws-amplify';
 import { createEvent as createEventMutation, deleteEvent as deleteEventMutation } from '../graphql/mutations';
 
@@ -73,6 +75,44 @@ const Section = ({ title, children, center = false }) => {
   )
 }
 
+const useStyles = makeStyles((theme) => ({
+  eventStartTime: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    position: 'absolute',
+    right: '0rem',
+    inputProps: {
+      style: {
+        padding: '0',
+      },
+      textAlign: 'center'
+    }
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    left: '0rem',
+    inputProps: {
+      style: {
+        padding: '0',
+      },
+      textAlign: 'center'
+    }
+  },
+  eventEndTime: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    position: 'absolute',
+    left: '0rem',
+    inputProps: {
+      style: {
+        padding: '0',
+      },
+      textAlign: 'center'
+    }
+  },
+  }));
+
 const initialFormState = { name: '', description: '' }
 
 const Activity = () => {
@@ -104,7 +144,11 @@ const Activity = () => {
       setSentiment(clicked)
     }
   }
-  const toggleEvent = () => {
+  const toggleMajorEvent = () => {
+
+    setEvent(eventState => !eventState)
+  }
+  const toggleModerateEvent = () => {
     setEvent(eventState => !eventState)
   }
 
@@ -241,6 +285,8 @@ const Activity = () => {
     setFormData(initialFormState);
   }
 
+  const classes = useStyles();
+
   return (
     <Page name="activity">
       <div css={styles.root}>
@@ -254,33 +300,47 @@ const Activity = () => {
         </Section>
 
         <Section title="event" center="true">
-          <Fab css={styles.moderateEvent} onClick={toggleEvent}>
+        <form className={classes.eventStartTime} noValidate>
+            <TextField
+              id="time"
+              label={t("Start Time")}
+              type="time"
+              defaultValue="07:30"
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              inputProps={{
+                style: {
+                  padding: 0,
+                }
+              }}
+            />
+          </form>
+          <Fab css={styles.moderateEvent} onClick={toggleModerateEvent}>
             <AddIcon />
           </Fab>
-          <Fab css={styles.majorEvent} onClick={toggleEvent}>
+          <Fab css={styles.majorEvent} onClick={toggleMajorEvent}>
             <AddIcon css={styles.firstAddIcon} />
             <AddIcon css={styles.secondAddIcon} />
           </Fab>
-          <div css={{ ...styles.picker, ...styles.picker.start }}>
-            <input
+          <form className={classes.eventEndTime} noValidate>
+            <TextField
+              id="time"
+              label={t("End Time")}
               type="time"
-              css={{ ...styles.input, ...styles.input.start }}
-              id="appt"
-              name="appt"
-              value="06:38"
-              onChange={() => {}}
-            ></input>
-          </div>
-          <div css={{ ...styles.picker, ...styles.picker.finish }}>
-            <input
-              type="time"
-              css={{ ...styles.input, ...styles.input.finish }}
-              id="appt"
-              name="appt"
-              value="06:55"
-              onChange={() => {}}
-            ></input>
-          </div>
+              defaultValue="07:30"
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              inputProps={{
+                style: {
+                  padding: 0,
+                }
+              }}
+            />
+          </form>
         </Section>
 
         <Section title="activity">

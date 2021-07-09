@@ -34,5 +34,7 @@
   "username": "User name",
   "signIn": "Sign in",
   "appName": "Puzzle",
-  "logout": "Logout"
+  "logout": "Logout",
+  "Start Time": "Start Time",
+  "End Time": "End Time"
 }

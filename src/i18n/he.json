@@ -34,5 +34,7 @@
   "username": "שם משתמש",
   "signIn": "כניסה",
   "appName": "Booggii",
-  "logout": "יציאה"
+  "logout": "יציאה",
+  "Start Time": "זמן התחלה",
+  "End Time": "זמן סיום"
 }
