@@ -111,6 +111,12 @@ const useStyles = makeStyles((theme) => ({
       textAlign: 'center'
     }
   },
+  eventTimes: {
+    display: 'flex',
+    justifyContent: 'left',
+    position: 'absolute',
+    left: '0rem',
+  },
   }));
 
 const initialFormState = { name: '', description: '' }
@@ -300,43 +306,34 @@ const Activity = () => {
         </Section>
 
         <Section title="event" center="true">
-          <TextField css={styles.eventStartTime}
-            id="time"
-            label={t("Start Time")}
-            type="time"
-            defaultValue="07:30"
-            className={classes.textField}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            inputProps={{
-              style: {
-                padding: 0.1,
-              }
-            }}
-          />
           <Fab css={styles.moderateEvent} onClick={toggleModerateEvent}>
             <AddIcon />
           </Fab>
           <Fab css={styles.majorEvent} onClick={toggleMajorEvent}>
-            <AddIcon css={styles.firstAddIcon} />
-            <AddIcon css={styles.secondAddIcon} />
+            <AddIcon />
           </Fab>
-          <TextField css={styles.eventEndTime}
-            id="time"
-            label={t("End Time")}
-            type="time"
-            defaultValue="07:30"
-            className={classes.textField}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            inputProps={{
-              style: {
-                padding: 0.1,
-              }
-            }}
-          />
+          <form css={styles.eventTimes} noValidate>
+            <TextField css={styles.eventStartTime}
+              id="time"
+              label={t("Start Time")}
+              type="time"
+              defaultValue="07:30"
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <TextField css={styles.eventEndTime}
+              id="time"
+              label={t("End Time")}
+              type="time"
+              defaultValue="07:30"
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </form>
         </Section>
 
         <Section title="activity">
