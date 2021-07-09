@@ -77,8 +77,8 @@ const Section = ({ title, children, center = false }) => {
 
 const useStyles = makeStyles((theme) => ({
   eventStartTime: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    // display: 'flex',
+    justifyContent: 'right',
     position: 'absolute',
     right: '0rem',
     inputProps: {
@@ -94,19 +94,19 @@ const useStyles = makeStyles((theme) => ({
     left: '0rem',
     inputProps: {
       style: {
-        padding: '0',
+        padding: '0.1',
       },
       textAlign: 'center'
     }
   },
   eventEndTime: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    // display: 'flex',
+    justifyContent: 'left',
     position: 'absolute',
     left: '0rem',
     inputProps: {
       style: {
-        padding: '0',
+        padding: '0.1',
       },
       textAlign: 'center'
     }
@@ -191,7 +191,7 @@ const Activity = () => {
         fontSize: '15vw',
       },
       '& .MuiIconButton-label': {
-        display: 'flex',
+        // display: 'flex',
         flexDirection: 'column',
       },
     },
@@ -206,7 +206,7 @@ const Activity = () => {
       height: '20vw',
       border: '5px solid white',
       '& > .MuiFab-label': {
-        display: 'flex',
+        // display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         '& > svg': {
@@ -227,7 +227,7 @@ const Activity = () => {
       height: '15vw',
       border: '5px solid white',
       '& > .MuiFab-label': {
-        display: 'flex',
+        // display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         '& > svg': {
@@ -300,23 +300,21 @@ const Activity = () => {
         </Section>
 
         <Section title="event" center="true">
-        <form className={classes.eventStartTime} noValidate>
-            <TextField
-              id="time"
-              label={t("Start Time")}
-              type="time"
-              defaultValue="07:30"
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              inputProps={{
-                style: {
-                  padding: 0,
-                }
-              }}
-            />
-          </form>
+          <TextField css={styles.eventStartTime}
+            id="time"
+            label={t("Start Time")}
+            type="time"
+            defaultValue="07:30"
+            className={classes.textField}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            inputProps={{
+              style: {
+                padding: 0.1,
+              }
+            }}
+          />
           <Fab css={styles.moderateEvent} onClick={toggleModerateEvent}>
             <AddIcon />
           </Fab>
@@ -324,23 +322,21 @@ const Activity = () => {
             <AddIcon css={styles.firstAddIcon} />
             <AddIcon css={styles.secondAddIcon} />
           </Fab>
-          <form className={classes.eventEndTime} noValidate>
-            <TextField
-              id="time"
-              label={t("End Time")}
-              type="time"
-              defaultValue="07:30"
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              inputProps={{
-                style: {
-                  padding: 0,
-                }
-              }}
-            />
-          </form>
+          <TextField css={styles.eventEndTime}
+            id="time"
+            label={t("End Time")}
+            type="time"
+            defaultValue="07:30"
+            className={classes.textField}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            inputProps={{
+              style: {
+                padding: 0.1,
+              }
+            }}
+          />
         </Section>
 
         <Section title="activity">
