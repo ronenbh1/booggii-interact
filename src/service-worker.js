@@ -71,8 +71,16 @@ self.addEventListener('message', (event) => {
 
 // Any other custom service worker logic can go here.
 
-self.addEventListener('install', (event) => {
-  const urls = [/* ... */];
-  const cacheName = cacheNames.runtime;
-  event.waitUntil(caches.open(cacheName).then((cache) => cache.addAll(urls)));
-});
+// self.addEventListener('install', (event) => {
+//   const urls = [/* ... */];
+//   const cacheName = cacheNames.runtime;
+//   event.waitUntil(caches.open(cacheName).then((cache) => cache.addAll(urls)));
+// });
+
+// self.addEventListener('fetch', function(event) {
+//   event.respondWith(
+//     fetch(event.request).catch(function() {
+//       return caches.match(event.request);
+//     })
+//   );
+// });

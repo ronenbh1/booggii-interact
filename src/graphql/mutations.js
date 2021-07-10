@@ -10,6 +10,9 @@ export const createEvent = /* GraphQL */ `
       id
       name
       description
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -24,6 +27,9 @@ export const updateEvent = /* GraphQL */ `
       id
       name
       description
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -38,6 +44,9 @@ export const deleteEvent = /* GraphQL */ `
       id
       name
       description
+      _version
+      _deleted
+      _lastChangedAt
       createdAt
       updatedAt
     }

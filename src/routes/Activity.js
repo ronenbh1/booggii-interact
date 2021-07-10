@@ -35,8 +35,8 @@ import red from '@material-ui/core/colors/red'
 // import TextField from '@material-ui/pickers';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
-import { API } from 'aws-amplify';
-import { createEvent as createEventMutation, deleteEvent as deleteEventMutation } from '../graphql/mutations';
+// import { API } from 'aws-amplify';
+// import { createEvent as createEventMutation, deleteEvent as deleteEventMutation } from '../graphql/mutations';
 
 import { DataStore } from '@aws-amplify/datastore';
 import { Event } from '../models';
@@ -124,8 +124,10 @@ const initialFormState = { name: '', description: '' }
 const Activity = () => {
   console.log("start")
   const t = useTranslation()
-  const [event, setEvent] = useState(false)
-  const [events, setEvents] = useState([]);
+  const [majorEvent, setMajorEvent] = useState(false)
+  const [majorEvents, setMajorEvents] = useState([]);
+  const [moderateEvent, setModerateEvent] = useState(false)
+  const [moderateEvents, setModerateEvents] = useState([]);
   const [formData, setFormData] = useState(initialFormState);
 
   const sentiments = [
@@ -146,16 +148,47 @@ const Activity = () => {
       setFormData({ ...formData, 'name': clicked})
       setFormData({ ...formData, 'description': "new Date()"})
       console.log(formData)
-      createEvent()
+      // createEvent()
       setSentiment(clicked)
     }
   }
-  const toggleMajorEvent = () => {
-
-    setEvent(eventState => !eventState)
+  const toggleMajorEvent = async () => {
+    setMajorEvent(eventState => !eventState)
+    console.log('toggleMajorEvent')
+    if (majorEvent){
+      await DataStore.save(
+        new Event({
+        "name": "MajorEventStart",
+        "description": "testing"
+        })
+      );
+    } else {
+      await DataStore.save(
+        new Event({
+        "name": "MajorEventEnd",
+        "description": "testing"
+        })
+      );
+    }
   }
-  const toggleModerateEvent = () => {
-    setEvent(eventState => !eventState)
+  const toggleModerateEvent = async () => {
+    setModerateEvent(eventState => !eventState)
+    console.log("toggleModerateEvent")
+    if (moderateEvent){
+      await DataStore.save(
+        new Event({
+          "name": "ModerateEventStart",
+          "description": "testing"
+        })
+      );
+    } else {
+      await DataStore.save(
+        new Event({
+          "name": "ModerateEventEnd",
+          "description": "testing"
+        })
+      );
+    }
   }
 
   const activities = [
@@ -177,8 +210,8 @@ const Activity = () => {
     console.log(clicked)
     await DataStore.save(
       new Event({
-      "name": clicked,
-      "description": "testing"
+        "name": clicked,
+        "description": "testing"
       })
     );
     // setFormData({ ...formData, 'description': "new Date()"})
@@ -203,7 +236,7 @@ const Activity = () => {
     },
     majorEvent: theme => ({
       borderRadius: '50%',
-      backgroundColor: event
+      backgroundColor: majorEvent
         ? `${red[500]} !important`
         : `${lightGreen[500]} !important`,
       color: 'white',
@@ -217,14 +250,14 @@ const Activity = () => {
         alignItems: 'center',
         '& > svg': {
           fontSize: '2.5rem',
-          transform: `rotate(${event ? 45 : 0}deg)`,
+          transform: `rotate(${majorEvent ? 45 : 0}deg)`,
           transition: 'transform 0.25s',
         },
       },
     }),
     moderateEvent: theme => ({
       borderRadius: '50%',
-      backgroundColor: event
+      backgroundColor: moderateEvent
         ? `${red[500]} !important`
         : `${lightGreen[500]} !important`,
       color: 'white',
@@ -238,7 +271,7 @@ const Activity = () => {
         alignItems: 'center',
         '& > svg': {
           fontSize: '2.5rem',
-          transform: `rotate(${event ? 45 : 0}deg)`,
+          transform: `rotate(${moderateEvent ? 45 : 0}deg)`,
           transition: 'transform 0.25s',
         },
       },
@@ -283,13 +316,13 @@ const Activity = () => {
     }
   }
 
-  async function createEvent() {
-    console.log(formData)
-    if (!formData.name || !formData.description) return;
-    await API.graphql({ query: createEventMutation, variables: { input: formData } });
-    setEvents([ ...events, formData ]);
-    setFormData(initialFormState);
-  }
+  // async function createEvent() {
+  //   console.log(formData)
+  //   if (!formData.name || !formData.description) return;
+  //   await API.graphql({ query: createEventMutation, variables: { input: formData } });
+  //   setEvents([ ...events, formData ]);
+  //   setFormData(initialFormState);
+  // }
 
   const classes = useStyles();
 
@@ -322,6 +355,11 @@ const Activity = () => {
               InputLabelProps={{
                 shrink: true,
               }}
+              inputProps={{
+                style: {
+                  padding: 0.1,
+                },
+              }}
             />
             <TextField css={styles.eventEndTime}
               id="time"
@@ -331,6 +369,11 @@ const Activity = () => {
               className={classes.textField}
               InputLabelProps={{
                 shrink: true,
+              }}
+              inputProps={{
+                style: {
+                  padding: 0.1,
+                },
               }}
             />
           </form>
