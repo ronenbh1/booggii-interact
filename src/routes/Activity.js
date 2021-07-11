@@ -140,17 +140,24 @@ const Activity = () => {
     { name: 'veryHappy', icon: <VeryHappy /> },
   ]
   const [sentiment, setSentiment] = useState()
-  const updateSentiment = clicked => () => {
+  const updateSentiment = clicked => async () => {
     if (clicked === sentiment) {
-      setFormData({ ...formData, 'name': clicked})
-      setFormData({ ...formData, 'description': "new Date()"})
-      console.log(formData)
+      // setFormData({ ...formData, 'name': clicked})
+      // setFormData({ ...formData, 'description': "new Date()"})
+      // console.log(formData)
       setSentiment(null)
     } else {
-      setFormData({ ...formData, 'name': clicked})
-      setFormData({ ...formData, 'description': "new Date()"})
-      console.log(formData)
-      // createEvent()
+      console.log(clicked)
+      await DataStore.save(
+        new Event({
+          "name": clicked,
+          "description": moment().format(),
+        })
+      );  
+      // setFormData({ ...formData, 'name': clicked})
+      // setFormData({ ...formData, 'description': "new Date()"})
+      // console.log(formData)
+      // // createEvent()
       setSentiment(clicked)
     }
   }
