@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useContext } from 'react'
 import useTheme from '../styling/useTheme'
 
 import Page from '../layout/Page'
@@ -40,6 +40,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { DataStore } from '@aws-amplify/datastore';
 import { Event } from '../models';
+import { Auth } from 'aws-amplify';
 
 import moment from 'moment';
 
@@ -131,6 +132,13 @@ const Activity = () => {
   const [moderateEvent, setModerateEvent] = useState(false)
   const [moderateEvents, setModerateEvents] = useState([]);
   const [formData, setFormData] = useState(initialFormState);
+  const [userName, setUserName] = useState("");
+  
+  Auth.currentAuthenticatedUser()
+  .then(user => {
+    setUserName(user.getUsername());
+    })
+
 
   const sentiments = [
     { name: 'verySad', icon: <VerySad /> },
@@ -217,6 +225,7 @@ const Activity = () => {
 
   const updateActivity = clicked => async () => {
     console.log(clicked)
+    console.log(userName)
     await DataStore.save(
       new Event({
         "name": clicked,
