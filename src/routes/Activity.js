@@ -41,6 +41,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { DataStore } from '@aws-amplify/datastore';
 import { Event } from '../models';
 
+import moment from 'moment';
+
 const Section = ({ title, children, center = false }) => {
   const t = useTranslation()
 
@@ -158,15 +160,15 @@ const Activity = () => {
     if (majorEvent){
       await DataStore.save(
         new Event({
-        "name": "MajorEventStart",
-        "description": "testing"
+        "name": "MajorEventEnd",
+        "description": moment().format(),
         })
       );
     } else {
       await DataStore.save(
         new Event({
-        "name": "MajorEventEnd",
-        "description": "testing"
+        "name": "MajorEventStart",
+        "description": moment().format(),
         })
       );
     }
@@ -177,15 +179,15 @@ const Activity = () => {
     if (moderateEvent){
       await DataStore.save(
         new Event({
-          "name": "ModerateEventStart",
-          "description": "testing"
+          "name": "ModerateEventEnd",
+          "description": moment().format(),
         })
       );
     } else {
       await DataStore.save(
         new Event({
-          "name": "ModerateEventEnd",
-          "description": "testing"
+          "name": "ModerateEventStart",
+          "description": moment().format(),
         })
       );
     }
@@ -211,7 +213,7 @@ const Activity = () => {
     await DataStore.save(
       new Event({
         "name": clicked,
-        "description": "testing"
+        "description": moment().format(),
       })
     );
     // setFormData({ ...formData, 'description': "new Date()"})
@@ -345,38 +347,6 @@ const Activity = () => {
           <Fab css={styles.majorEvent} onClick={toggleMajorEvent}>
             <AddIcon />
           </Fab>
-          <form css={styles.eventTimes} noValidate>
-            <TextField css={styles.eventStartTime}
-              id="time"
-              label={t("Start Time")}
-              type="time"
-              defaultValue="07:30"
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              inputProps={{
-                style: {
-                  padding: 0.1,
-                },
-              }}
-            />
-            <TextField css={styles.eventEndTime}
-              id="time"
-              label={t("End Time")}
-              type="time"
-              defaultValue="07:30"
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              inputProps={{
-                style: {
-                  padding: 0.1,
-                },
-              }}
-            />
-          </form>
         </Section>
 
         <Section title="activity">
