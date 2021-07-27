@@ -147,6 +147,7 @@ const Activity = () => {
     { name: 'happy', icon: <Happy /> },
     { name: 'veryHappy', icon: <VeryHappy /> },
   ]
+  const [activity, setActivity] = useState()
   const [sentiment, setSentiment] = useState()
   const updateSentiment = clicked => async () => {
     if (clicked === sentiment) {
@@ -224,17 +225,39 @@ const Activity = () => {
   ]
 
   const updateActivity = clicked => async () => {
-    console.log(clicked)
-    console.log(userName)
-    await DataStore.save(
-      new Event({
-        "name": clicked,
-        "description": moment().format(),
-      })
-    );
-    // setFormData({ ...formData, 'description': "new Date()"})
-    // setFormData({ ...formData, 'name': clicked})
-    // createEvent()
+    if (clicked === activity) {
+      console.log(clicked)
+      await DataStore.save(
+        new Event({
+          "name": clicked + "_end",
+          "description": moment().format(),
+        })
+      );  
+      setActivity(null)
+    } else if (clicked != null) {
+      await DataStore.save(
+        new Event({
+          "name": activity + "_end",
+          "description": moment().format(),
+        })
+      );  
+      await DataStore.save(
+        new Event({
+          "name": clicked + "_start",
+          "description": moment().format(),
+        })
+      );  
+      setActivity(clicked)
+    } else {
+      console.log(clicked)
+      await DataStore.save(
+        new Event({
+          "name": clicked + "_start",
+          "description": moment().format(),
+        })
+      );
+      setActivity(clicked)
+    }
   }
 
   const styles = {
@@ -369,7 +392,7 @@ const Activity = () => {
           {activities.map(({ name, icon }) => (
             <ActivityButton
               key={name}
-              {...{ name, icon, updateActivity }}
+              {...{ name, icon, activity, updateActivity }}
             />
           ))}
         </Section>
@@ -412,7 +435,7 @@ const Sentiment = ({ name, icon, sentiment, updateSentiment }) => {
   )
 }
 
-const ActivityButton = ({ name, icon, updateActivity }) => {
+const ActivityButton = ({ name, icon, activity, updateActivity }) => {
   const theme = useTheme()
   const Icon = icon
   const t = useTranslation()
@@ -432,7 +455,7 @@ const ActivityButton = ({ name, icon, updateActivity }) => {
         fill: theme.palette.primary.main,
       },
     },
-       caption: {
+    caption: {
       fontSize: '1rem',
     },
   }
@@ -443,7 +466,7 @@ const ActivityButton = ({ name, icon, updateActivity }) => {
       }}
       onClick={updateActivity(name)}
     >
-      <div>{icon}</div>
+      <div css={name === activity ? styles.selectedActivity : {}}>{icon}</div>
       <div css={styles.caption}>{t(name)}</div>
     </IconButton>
   )
