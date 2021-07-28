@@ -9,7 +9,8 @@ export const createEvent = /* GraphQL */ `
     createEvent(input: $input, condition: $condition) {
       id
       name
-      description
+      localTime
+      userName
       _version
       _deleted
       _lastChangedAt
@@ -26,7 +27,8 @@ export const updateEvent = /* GraphQL */ `
     updateEvent(input: $input, condition: $condition) {
       id
       name
-      description
+      localTime
+      userName
       _version
       _deleted
       _lastChangedAt
@@ -43,7 +45,8 @@ export const deleteEvent = /* GraphQL */ `
     deleteEvent(input: $input, condition: $condition) {
       id
       name
-      description
+      localTime
+      userName
       _version
       _deleted
       _lastChangedAt

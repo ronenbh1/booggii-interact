@@ -151,22 +151,16 @@ const Activity = () => {
   const [sentiment, setSentiment] = useState()
   const updateSentiment = clicked => async () => {
     if (clicked === sentiment) {
-      // setFormData({ ...formData, 'name': clicked})
-      // setFormData({ ...formData, 'description': "new Date()"})
-      // console.log(formData)
       setSentiment(null)
     } else {
       console.log(clicked)
       await DataStore.save(
         new Event({
           "name": clicked,
-          "description": moment().format(),
+          "localTime": moment().format(),
+          "userName": userName
         })
       );  
-      // setFormData({ ...formData, 'name': clicked})
-      // setFormData({ ...formData, 'description': "new Date()"})
-      // console.log(formData)
-      // // createEvent()
       setSentiment(clicked)
     }
   }
@@ -177,14 +171,16 @@ const Activity = () => {
       await DataStore.save(
         new Event({
         "name": "MajorEventEnd",
-        "description": moment().format(),
+        "localTime": moment().format(),
+        "userName": userName
         })
       );
     } else {
       await DataStore.save(
         new Event({
         "name": "MajorEventStart",
-        "description": moment().format(),
+        "localTime": moment().format(),
+        "userName": userName
         })
       );
     }
@@ -196,14 +192,16 @@ const Activity = () => {
       await DataStore.save(
         new Event({
           "name": "ModerateEventEnd",
-          "description": moment().format(),
+          "localTime": moment().format(),
+          "userName": userName
         })
       );
     } else {
       await DataStore.save(
         new Event({
           "name": "ModerateEventStart",
-          "description": moment().format(),
+          "localTime": moment().format(),
+          "userName": userName
         })
       );
     }
@@ -230,21 +228,24 @@ const Activity = () => {
       await DataStore.save(
         new Event({
           "name": clicked + "_end",
-          "description": moment().format(),
+          "localTime": moment().format(),
+          "userName": userName
         })
       );  
       setActivity(null)
-    } else if (clicked != null) {
+    } else if (activity != null) {
       await DataStore.save(
         new Event({
           "name": activity + "_end",
-          "description": moment().format(),
+          "localTime": moment().format(),
+          "userName": userName
         })
       );  
       await DataStore.save(
         new Event({
           "name": clicked + "_start",
-          "description": moment().format(),
+          "localTime": moment().format(),
+          "userName": userName
         })
       );  
       setActivity(clicked)
@@ -253,7 +254,8 @@ const Activity = () => {
       await DataStore.save(
         new Event({
           "name": clicked + "_start",
-          "description": moment().format(),
+          "localTime": moment().format(),
+          "userName": userName
         })
       );
       setActivity(clicked)
