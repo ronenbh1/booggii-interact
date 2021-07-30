@@ -32,6 +32,8 @@ import ActivityLogIcon from '@material-ui/icons/PendingActionsOutlined'
 import Dashboard from './Dashboard'
 import Activity from './Activity'
 
+import packageJson from '../../package.json'
+
 const Home = () => {
   const { url } = useRouteMatch()
   const { pathname } = useLocation()
@@ -199,6 +201,10 @@ const Home = () => {
       icon: light ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />,
       onClick: () => dispatch(toggleMode()),
       title: t('mode'),
+    },
+    {
+      key: 'version',
+      title: 'V' + packageJson.version,
     },
     {
       key: 'logout',
