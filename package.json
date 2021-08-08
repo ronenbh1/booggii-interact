@@ -20,6 +20,7 @@
     "aws-amplify": "^4.1.2",
     "axios": "^0.21.1",
     "dotenv": "^10.0.0",
+    "jss-rtl": "^0.3.0",
     "lodash.get": "^4.4.2",
     "react": "^17.0.2",
     "react-device-detect": "^1.17.0",

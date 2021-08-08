@@ -170,7 +170,7 @@ const Activity = () => {
     if (majorEvent){
       await DataStore.save(
         new Event({
-        "name": "MajorEventEnd",
+        "name": "MajorEvent_end",
         "localTime": moment().format(),
         "userName": userName
         })
@@ -178,7 +178,7 @@ const Activity = () => {
     } else {
       await DataStore.save(
         new Event({
-        "name": "MajorEventStart",
+        "name": "MajorEvent_start",
         "localTime": moment().format(),
         "userName": userName
         })
@@ -191,7 +191,7 @@ const Activity = () => {
     if (moderateEvent){
       await DataStore.save(
         new Event({
-          "name": "ModerateEventEnd",
+          "name": "ModerateEvent_end",
           "localTime": moment().format(),
           "userName": userName
         })
@@ -199,7 +199,7 @@ const Activity = () => {
     } else {
       await DataStore.save(
         new Event({
-          "name": "ModerateEventStart",
+          "name": "ModerateEvent_start",
           "localTime": moment().format(),
           "userName": userName
         })
@@ -211,7 +211,6 @@ const Activity = () => {
     { name: 'walking', icon: <Walking /> },
     { name: 'layDown', icon: <LayDown /> },
     { name: 'dining', icon: <Dining /> },
-    // { name: 'riding', icon: <FontAwesomeIcon icon={Riding} /> },
     { name: 'riding', icon: <Riding /> },
     { name: 'driving', icon: <Driving /> },
     { name: 'closedSpace', icon: <ClosedSpace /> },
