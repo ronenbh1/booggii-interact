@@ -13,6 +13,7 @@ export declare class Event {
   readonly name: string;
   readonly localTime?: string;
   readonly userName: string;
+  readonly status: string;
   readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<Event, EventMetaData>);

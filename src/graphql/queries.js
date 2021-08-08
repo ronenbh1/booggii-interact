@@ -8,6 +8,7 @@ export const getEvent = /* GraphQL */ `
       name
       localTime
       userName
+      status
       _version
       _deleted
       _lastChangedAt
@@ -28,6 +29,7 @@ export const listEvents = /* GraphQL */ `
         name
         localTime
         userName
+        status
         _version
         _deleted
         _lastChangedAt
@@ -57,6 +59,7 @@ export const syncEvents = /* GraphQL */ `
         name
         localTime
         userName
+        status
         _version
         _deleted
         _lastChangedAt
