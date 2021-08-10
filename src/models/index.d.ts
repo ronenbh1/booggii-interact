@@ -11,9 +11,9 @@ type EventMetaData = {
 export declare class Event {
   readonly id: string;
   readonly name: string;
-  readonly localTime?: string;
+  readonly startLocalTime: string;
+  readonly endLocalTime?: string;
   readonly userName: string;
-  readonly status: string;
   readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<Event, EventMetaData>);

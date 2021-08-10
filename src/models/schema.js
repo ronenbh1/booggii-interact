@@ -17,8 +17,15 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "localTime": {
-                    "name": "localTime",
+                "startLocalTime": {
+                    "name": "startLocalTime",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "endLocalTime": {
+                    "name": "endLocalTime",
                     "isArray": false,
                     "type": "AWSDateTime",
                     "isRequired": false,
@@ -26,13 +33,6 @@ export const schema = {
                 },
                 "userName": {
                     "name": "userName",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "status": {
-                    "name": "status",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
@@ -83,5 +83,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "81ca813f5f2b388d553cc8cb2c52748d"
+    "version": "3b4c88aeebeacbf300b91620a29e6fee"
 };
