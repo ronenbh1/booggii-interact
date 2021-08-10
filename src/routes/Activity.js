@@ -16,8 +16,6 @@ import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 
 import Walking from '@material-ui/icons/DirectionsWalk'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faHorse as Riding } from '@fortawesome/free-solid-svg-icons'
 import Riding from '@material-ui/icons/BedroomBaby'
 import Dining from '@material-ui/icons/Fastfood'
 import Sleeping from '@material-ui/icons/Hotel'
@@ -25,18 +23,13 @@ import Driving from '@material-ui/icons/DirectionsCarFilled'
 import WithFamily from '@material-ui/icons/FamilyRestroom'
 import Media from '@material-ui/icons/Theaters'
 import LayDown from '@material-ui/icons/AirlineSeatFlatAngled'
-// import ClosedSpace from '@material-ui/icons/ExitToApp'
 import ClosedSpace from '@material-ui/icons/DisabledByDefault'
 import Effort from '@material-ui/icons/FitnessCenter'
 import Crowded from '@material-ui/icons/Groups'
-// import lightBlue from '@material-ui/core/colors/lightBlue'
 import lightGreen from '@material-ui/core/colors/lightGreen'
 import red from '@material-ui/core/colors/red'
-// import TextField from '@material-ui/pickers';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
-// import { API } from 'aws-amplify';
-// import { createEvent as createEventMutation, deleteEvent as deleteEventMutation } from '../graphql/mutations';
 
 import { DataStore, SortDirection } from '@aws-amplify/datastore';
 import { Event } from '../models';

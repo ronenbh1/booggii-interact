@@ -37,5 +37,11 @@
   "logout": "יציאה",
   "Start Time": "זמן התחלה",
   "End Time": "זמן סיום",
-  "sad": "מרגיש לא טוב"
+  "sad": "לא טוב",
+  "moderateEvent": "אירוע בינוני",
+  "majorEvent": "אירוע חמור",
+  "verySad": "גרוע",
+  "neutral": "סביר",
+  "happy": "טוב",
+  "veryHappy": "שמח"
 }

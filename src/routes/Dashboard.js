@@ -17,6 +17,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import FolderIcon from '@material-ui/icons/Folder';
 import DeleteIcon from '@material-ui/icons/Delete';
+import TextField from '@material-ui/core/TextField';
 
 import Page from '../layout/Page'
 import { useState, useRef, useEffect, useContext } from 'react'
@@ -34,28 +35,179 @@ import Direction from '../layout/Direction'
 
 import useTranslation from '../i18n/useTranslation'
 
+import VerySad from '@material-ui/icons/SentimentVeryDissatisfied'
+import Sad from '@material-ui/icons/SentimentDissatisfied'
+import Neutral from '@material-ui/icons/SentimentNeutral'
+import Happy from '@material-ui/icons/SentimentSatisfiedAlt'
+import VeryHappy from '@material-ui/icons/SentimentVerySatisfied'
+import Fab from '@material-ui/core/Fab'
+import AddIcon from '@material-ui/icons/Add'
 
-const initialFormState = { name: '', description: '' }
+import Walking from '@material-ui/icons/DirectionsWalk'
+import Riding from '@material-ui/icons/BedroomBaby'
+import Dining from '@material-ui/icons/Fastfood'
+import Sleeping from '@material-ui/icons/Hotel'
+import Driving from '@material-ui/icons/DirectionsCarFilled'
+import WithFamily from '@material-ui/icons/FamilyRestroom'
+import Media from '@material-ui/icons/Theaters'
+import LayDown from '@material-ui/icons/AirlineSeatFlatAngled'
+import ClosedSpace from '@material-ui/icons/DisabledByDefault'
+import Effort from '@material-ui/icons/FitnessCenter'
+import Crowded from '@material-ui/icons/Groups'
+import lightGreen from '@material-ui/core/colors/lightGreen'
+import red from '@material-ui/core/colors/red'
 
+const styles = {
+  root: theme => ({
+    height: '100%',
+    display: 'grid',
+    gap: '1rem',
+  }),
+  iconButton: {
+    '& svg': {
+      fontSize: '15vw',
+    },
+    '& .MuiIconButton-label': {
+      // display: 'flex',
+      flexDirection: 'column',
+    },
+  },
+  majorEvent: theme => ({
+    borderRadius: '50%',
+    backgroundColor: `${lightGreen[500]} !important`,
+    color: 'white',
+    borderColor: 'transparent',
+    width: '6vw',
+    height: '6vw',
+    // border: '5px solid white',
+    '& > .MuiFab-label': {
+      // display: 'flex',
+      justifyContent: 'start',
+      alignItems: 'start',
+      '& > svg': {
+        fontSize: '2.5rem',
+        // transform: `rotate(${majorEvent ? 45 : 0}deg)`,
+        transition: 'transform 0.25s',
+      },
+    },
+  }),
+  moderateEvent: theme => ({
+    borderRadius: '50%',
+    backgroundColor: `${lightGreen[500]} !important`,
+    color: 'white',
+    borderColor: 'transparent',
+    width: '10vw',
+    height: '10vw',
+    border: '5px solid white',
+    '& > .MuiFab-label': {
+      // display: 'flex',
+      justifyContent: 'start',
+      alignItems: 'start',
+      '& > svg': {
+        fontSize: '2.5rem',
+        // transform: `rotate(${moderateEvent ? 45 : 0}deg)`,
+        transition: 'transform 0.25s',
+      },
+    },
+  }),
+
+  picker: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    fontSize: '1rem',
+    position: 'absolute',
+    start: {
+      right: '0rem',
+    },
+    finish: {
+      left: '0rem',
+    },
+  },
+  input: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    padding: '0.3rem',
+    border: '1px solid rgba(0, 0, 0, 0.2)',
+    borderRadius: '10px',
+    start: {
+      background: lightGreen[200],
+    },
+    finish: {
+      background: red[200],
+    },
+  },
+  firstAddIcon: {
+    transform: 'translate(-0.8rem, -0.8rem) !important',
+  },
+  secondAddIcon: {
+    transform: 'translate(0.8rem, 0.8rem) !important',
+  },
+  activitySection: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-evenly',
+    gap: '2rem',
+  }
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     maxWidth: 752,
+    justifyContent: 'space-between',
   },
   demo: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
     textAlignLast: 'start',
     backgroundColor: theme.palette.background.paper,
+    // justifyContent: 'space-evenly',
+    gap: '5rem'
   },
   title: {
     margin: theme.spacing(4, 0, 2),
   },
 }));
 
+const initialFormState = { name: '', description: '' }
+
+const sentiments = {
+  'verySad':<VerySad /> ,
+  'sad': <Sad /> ,
+  'neutral': <Neutral />,
+  'happy': <Happy />,
+  'veryHappy': <VeryHappy />,
+}
+
+const activities = {
+  'walking': <Walking />,
+  'layDown': <LayDown />,
+  'dining': <Dining css={styles.iconButton}/>,
+  'riding': <Riding />,
+  'driving': <Driving />,
+  'closedSpace': <ClosedSpace />,
+  'withFamily': <WithFamily />,
+  'sleeping': <Sleeping />,
+  'media': <Media />,
+  'effort': <Effort />,
+  'crowded': <Crowded />,
+}
+
+const eventIcons = {
+  "moderateEvent": <AddIcon css={styles.moderateEvent} />,
+  "majorEvent": <AddIcon css={styles.majorEvent} />
+}
+
+const all_icons = Object.assign({}, sentiments, activities, eventIcons)
+
+
 function generate(events, element) {
   return events.map(event => 
-    React.cloneElement(element, {
+    React.cloneElement(event, {
+      key: event.id,
       title: event.name,
+      icon: all_icons[event.name]
     }),
   );
 }
@@ -97,14 +249,30 @@ const Dashboard = () => {
                 <div className={classes.demo}>
                   <List dense={dense}>
                     {events.map(event => (
-                      <ListItem>
+                      <ListItem key={event.id}>
                         <ListItemAvatar>
-                          <Avatar>
-                            <FolderIcon />
-                          </Avatar>
+                          {all_icons[event.name]}
                         </ListItemAvatar>
                         <ListItemText
                           primary={t(event.name)}
+                        />
+                        <TextField
+                          label="Start"
+                          type="datetime-local"
+                          defaultValue={event.startLocalTime.slice(0, -6)}
+                          className={classes.textField}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                        />
+                        <TextField
+                          label="End"
+                          type="datetime-local"
+                          defaultValue={event.endLocalTime.slice(0, -6)}
+                          className={classes.textField}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
                         />
                         <IconButton edge="end" aria-label="delete">
                           <DeleteIcon />
