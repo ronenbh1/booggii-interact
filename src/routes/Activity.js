@@ -405,14 +405,6 @@ const Activity = () => {
     }
   }
 
-  // async function createEvent() {
-  //   console.log(formData)
-  //   if (!formData.name || !formData.description) return;
-  //   await API.graphql({ query: createEventMutation, variables: { input: formData } });
-  //   setEvents([ ...events, formData ]);
-  //   setFormData(initialFormState);
-  // }
-
   const classes = useStyles();
 
   return (

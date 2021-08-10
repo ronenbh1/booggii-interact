@@ -243,9 +243,9 @@ const Dashboard = () => {
           <div className={classes.root} dir={direction} >
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
-                <Typography variant="h6" className={classes.title}>
-                  Avatar with text and icon
-                </Typography>
+                <Fab color="primary" aria-label="add" className={classes.demo}>
+                  <AddIcon />
+                </Fab>
                 <div className={classes.demo}>
                   <List dense={dense}>
                     {events.map(event => (
@@ -268,7 +268,7 @@ const Dashboard = () => {
                         <TextField
                           label="End"
                           type="datetime-local"
-                          defaultValue={event.endLocalTime.slice(0, -6)}
+                          defaultValue={event.endLocalTime == null ? null : event.endLocalTime.slice(0, -6)}
                           className={classes.textField}
                           InputLabelProps={{
                             shrink: true,
