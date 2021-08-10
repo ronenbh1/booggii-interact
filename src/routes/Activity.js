@@ -38,7 +38,7 @@ import { makeStyles } from '@material-ui/core/styles';
 // import { API } from 'aws-amplify';
 // import { createEvent as createEventMutation, deleteEvent as deleteEventMutation } from '../graphql/mutations';
 
-import { DataStore } from '@aws-amplify/datastore';
+import { DataStore, SortDirection } from '@aws-amplify/datastore';
 import { Event } from '../models';
 import { Auth } from 'aws-amplify';
 
@@ -133,12 +133,11 @@ const Activity = () => {
   const [moderateEvents, setModerateEvents] = useState([]);
   const [formData, setFormData] = useState(initialFormState);
   const [userName, setUserName] = useState("");
-  
+
   Auth.currentAuthenticatedUser()
   .then(user => {
     setUserName(user.getUsername());
     })
-
 
   const sentiments = [
     { name: 'verySad', icon: <VerySad /> },
@@ -151,36 +150,76 @@ const Activity = () => {
   const [sentiment, setSentiment] = useState()
   const updateSentiment = clicked => async () => {
     if (clicked === sentiment) {
+      console.log(clicked)
+      const lastSentiment = await DataStore.query(Event, c =>
+        c.name("eq", clicked), 
+        {
+          sort: s => s.startLocalTime(SortDirection.DESCENDING),
+          limit: 1
+        }
+      );
+      await DataStore.save(
+        Event.copyOf(lastSentiment[0], updated => {
+          updated.endLocalTime = moment().format();
+      }));
+      DataStore.delete(lastSentiment[0]);
       setSentiment(null)
+    } else if (sentiment != null) {
+      const lastSentiment = await DataStore.query(Event, c =>
+        c.name("eq", sentiment), 
+        {
+          sort: s => s.startLocalTime(SortDirection.DESCENDING),
+          limit: 1
+        }
+      );
+      await DataStore.save(
+        Event.copyOf(lastSentiment[0], updated => {
+          updated.endLocalTime = moment().format();
+      }));
+      DataStore.delete(lastSentiment[0]);
+      await DataStore.save(
+        new Event({
+          "name": clicked,
+          "startLocalTime": moment().format(),
+          "userName": userName
+        })
+      );  
+      setSentiment(clicked)
     } else {
       console.log(clicked)
       await DataStore.save(
         new Event({
           "name": clicked,
-          "localTime": moment().format(),
+          "startLocalTime": moment().format(),
           "userName": userName
         })
-      );  
+      );
       setSentiment(clicked)
     }
   }
+
   const toggleMajorEvent = async () => {
     setMajorEvent(eventState => !eventState)
-    console.log('toggleMajorEvent')
+    console.log("toggleMajorEvent")
     if (majorEvent){
-      await DataStore.save(
-        new Event({
-        "name": "MajorEvent_end",
-        "localTime": moment().format(),
-        "userName": userName
-        })
+      const lastMajorEvent = await DataStore.query(Event, c =>
+        c.name("eq", "majorEvent"), 
+        {
+          sort: s => s.startLocalTime(SortDirection.DESCENDING),
+          limit: 1
+        }
       );
+      await DataStore.save(
+        Event.copyOf(lastMajorEvent[0], updated => {
+          updated.endLocalTime = moment().format();
+      }));
+      DataStore.delete(lastMajorEvent[0]);
     } else {
       await DataStore.save(
         new Event({
-        "name": "MajorEvent_start",
-        "localTime": moment().format(),
-        "userName": userName
+          "name": "majorEvent",
+          "startLocalTime": moment().format(),
+          "userName": userName
         })
       );
     }
@@ -189,18 +228,23 @@ const Activity = () => {
     setModerateEvent(eventState => !eventState)
     console.log("toggleModerateEvent")
     if (moderateEvent){
-      await DataStore.save(
-        new Event({
-          "name": "ModerateEvent_end",
-          "localTime": moment().format(),
-          "userName": userName
-        })
+      const lastModerateEvent = await DataStore.query(Event, c =>
+        c.name("eq", "moderateEvent"), 
+        {
+          sort: s => s.startLocalTime(SortDirection.DESCENDING),
+          limit: 1
+        }
       );
+      await DataStore.save(
+        Event.copyOf(lastModerateEvent[0], updated => {
+          updated.endLocalTime = moment().format();
+      }));
+      DataStore.delete(lastModerateEvent[0]);
     } else {
       await DataStore.save(
         new Event({
-          "name": "ModerateEvent_start",
-          "localTime": moment().format(),
+          "name": "moderateEvent",
+          "startLocalTime": moment().format(),
           "userName": userName
         })
       );
@@ -224,26 +268,36 @@ const Activity = () => {
   const updateActivity = clicked => async () => {
     if (clicked === activity) {
       console.log(clicked)
+      const lastActivity = await DataStore.query(Event, c =>
+        c.name("eq", clicked), 
+        {
+          sort: s => s.startLocalTime(SortDirection.DESCENDING),
+          limit: 1
+        }
+      );
       await DataStore.save(
-        new Event({
-          "name": clicked + "_end",
-          "localTime": moment().format(),
-          "userName": userName
-        })
-      );  
+        Event.copyOf(lastActivity[0], updated => {
+          updated.endLocalTime = moment().format();
+      }));
+      DataStore.delete(lastActivity[0]);
       setActivity(null)
     } else if (activity != null) {
+      const lastActivity = await DataStore.query(Event, c =>
+        c.name("eq", activity), 
+        {
+          sort: s => s.startLocalTime(SortDirection.DESCENDING),
+          limit: 1
+        }
+      );
+      await DataStore.save(
+        Event.copyOf(lastActivity[0], updated => {
+          updated.endLocalTime = moment().format();
+      }));
+      DataStore.delete(lastActivity[0]);
       await DataStore.save(
         new Event({
-          "name": activity + "_end",
-          "localTime": moment().format(),
-          "userName": userName
-        })
-      );  
-      await DataStore.save(
-        new Event({
-          "name": clicked + "_start",
-          "localTime": moment().format(),
+          "name": clicked,
+          "startLocalTime": moment().format(),
           "userName": userName
         })
       );  
@@ -252,8 +306,8 @@ const Activity = () => {
       console.log(clicked)
       await DataStore.save(
         new Event({
-          "name": clicked + "_start",
-          "localTime": moment().format(),
+          "name": clicked,
+          "startLocalTime": moment().format(),
           "userName": userName
         })
       );

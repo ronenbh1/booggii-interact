@@ -11,7 +11,8 @@ type EventMetaData = {
 export declare class Event {
   readonly id: string;
   readonly name: string;
-  readonly localTime?: string;
+  readonly startLocalTime: string;
+  readonly endLocalTime?: string;
   readonly userName: string;
   readonly createdAt?: string;
   readonly updatedAt?: string;

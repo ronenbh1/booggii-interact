@@ -1,6 +1,6 @@
 {
   "name": "booggii-interact",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "@aws-amplify/cli": "4.29.0",
