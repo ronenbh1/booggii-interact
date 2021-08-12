@@ -6,11 +6,9 @@ export const onCreateEvent = /* GraphQL */ `
     onCreateEvent {
       id
       name
-      localTime
+      startLocalTime
+      endLocalTime
       userName
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -21,11 +19,9 @@ export const onUpdateEvent = /* GraphQL */ `
     onUpdateEvent {
       id
       name
-      localTime
+      startLocalTime
+      endLocalTime
       userName
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -36,11 +32,9 @@ export const onDeleteEvent = /* GraphQL */ `
     onDeleteEvent {
       id
       name
-      localTime
+      startLocalTime
+      endLocalTime
       userName
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }

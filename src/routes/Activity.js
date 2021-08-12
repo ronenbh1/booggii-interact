@@ -44,6 +44,8 @@ import { Auth } from 'aws-amplify';
 
 import moment from 'moment';
 
+// DataStore.clear()
+
 const Section = ({ title, children, center = false }) => {
   const t = useTranslation()
 
