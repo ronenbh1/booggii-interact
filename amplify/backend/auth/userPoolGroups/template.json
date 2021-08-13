@@ -41,15 +41,15 @@
     },
     "Resources": {
     
-        "booggiiusersGroup": {
+        "devGroup": {
           "Type" : "AWS::Cognito::UserPoolGroup",
           "Properties" : {
-              "GroupName" : "booggiiusers",
+              "GroupName" : "dev",
               "Precedence" : 1,
               
               "RoleArn" : {
                 "Fn::GetAtt": [
-                    "booggiiusersGroupRole",
+                    "devGroupRole",
                     "Arn"
                 ]
               },
@@ -60,7 +60,7 @@
             }
         },
         
-        "booggiiusersGroupRole": {
+        "devGroupRole": {
             "Type": "AWS::IAM::Role",
             "Properties": {
                 "RoleName":{
@@ -70,7 +70,7 @@
                           {
                             "Ref": "authbooggiiinteract375ad7f3UserPoolId"
                           },
-                          "-booggiiusersGroupRole"
+                          "-devGroupRole"
                         ]
                     ]
                 },
@@ -247,7 +247,7 @@
                 },
                 "Handler": "index.handler",
                 "Runtime": "nodejs12.x",
-                "Timeout": 300,
+                "Timeout": "300",
                 "Role": {
                     "Fn::GetAtt": [
                         "LambdaExecutionRole",
@@ -297,10 +297,10 @@
     
     "Outputs": {
       
-        "booggiiusersGroupRole": {
+        "devGroupRole": {
             "Value": {
                 "Fn::GetAtt": [
-                    "booggiiusersGroupRole",
+                    "devGroupRole",
                     "Arn"
                 ]
             }
