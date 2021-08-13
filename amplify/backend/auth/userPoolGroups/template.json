@@ -56,7 +56,7 @@
               
               "UserPoolId" : {
                 "Ref": "authbooggiiinteract375ad7f3UserPoolId"
-              } 
+              }
             }
         },
         
@@ -104,13 +104,13 @@
                         "ShouldNotCreateEnvResources",
                         {
                            
-                        }, 
+                        },
                         {
 
                             "Fn::Join": [
                                 "",
                                 [
-                                  
+
                                   "booggiiinteract375ad7f3",
                                   "-ExecutionRole-",
                                   {
@@ -118,7 +118,7 @@
                                   }
                                 ]
                             ]
-                        }       
+                        }
                     ]
                 },
                 "AssumeRolePolicyDocument": {
@@ -183,7 +183,10 @@
                                     "Action": [
                                         "iam:PassRole"
                                     ],
-                                    "Resource": "*"
+                                    "Resource": [
+                                        { "Ref": "AuthRoleArn" },
+                                        { "Ref": "UnauthRoleArn" }
+                                    ]
                                 }
                             ]
                         }
@@ -233,7 +236,6 @@
                                 "    cognitoidentity.setIdentityPoolRoles(params).promise();",
                                 "    response.send(event, context, response.SUCCESS, {message: 'Successfully updated identity pool.'})",
                                 "    } catch(err) {",
-                                
                                 "        response.send(event, context, response.FAILED, {message: 'Error updating identity pool'});",
                                 "    }",
                                 "   };",
@@ -244,8 +246,8 @@
                     }
                 },
                 "Handler": "index.handler",
-                "Runtime": "nodejs10.x",
-                "Timeout": "300",
+                "Runtime": "nodejs12.x",
+                "Timeout": 300,
                 "Role": {
                     "Fn::GetAtt": [
                         "LambdaExecutionRole",

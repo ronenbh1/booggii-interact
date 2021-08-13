@@ -9,9 +9,6 @@ export const getEvent = /* GraphQL */ `
       startLocalTime
       endLocalTime
       userName
-      _version
-      _deleted
-      _lastChangedAt
       createdAt
       updatedAt
     }
@@ -28,46 +25,12 @@ export const listEvents = /* GraphQL */ `
         id
         name
         startLocalTime
-        endLocalTime  
+        endLocalTime
         userName
-        _version
-        _deleted
-        _lastChangedAt
         createdAt
         updatedAt
       }
       nextToken
-      startedAt
-    }
-  }
-`;
-export const syncEvents = /* GraphQL */ `
-  query SyncEvents(
-    $filter: ModelEventFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncEvents(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        id
-        name
-        startLocalTime
-        endLocalTime  
-        userName
-        _version
-        _deleted
-        _lastChangedAt
-        createdAt
-        updatedAt
-      }
-      nextToken
-      startedAt
     }
   }
 `;
