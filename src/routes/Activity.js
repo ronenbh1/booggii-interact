@@ -44,7 +44,8 @@ import { Auth } from 'aws-amplify';
 
 import moment from 'moment';
 
-// DataStore.clear()
+DataStore.clear();
+
 
 const Section = ({ title, children, center = false }) => {
   const t = useTranslation()
@@ -148,7 +149,11 @@ const Activity = () => {
     { name: 'happy', icon: <Happy /> },
     { name: 'veryHappy', icon: <VeryHappy /> },
   ]
-  const [activity, setActivity] = useState()
+  const [clickedActivities,setActivity] = useState([0]);
+
+  
+
+  //const [activity, setActivity] = useState()
   const [sentiment, setSentiment] = useState()
   const updateSentiment = clicked => async () => {
     if (clicked === sentiment) {
@@ -266,45 +271,35 @@ const Activity = () => {
     { name: 'effort', icon: <Effort /> },
     { name: 'crowded', icon: <Crowded /> },
   ]
-
+  const getActivityByName = async (name) => {
+    const lastActivity = await DataStore.query(Event, c =>
+      c.name("eq", name), 
+      {
+        sort: s => s.startLocalTime(SortDirection.DESCENDING),
+        limit: 1
+      }
+    );
+    return lastActivity;
+  }
+  const updateEndLocalTime = async (Element) =>{
+    await DataStore.save(
+      Event.copyOf(Element, updated => {
+        updated.endLocalTime = moment().format();
+    }));
+  }
   const updateActivity = clicked => async () => {
-    if (clicked === activity) {
+    if (clickedActivities.includes(clicked)) {
+      let index = clickedActivities.indexOf(clicked);
+
       console.log(clicked)
-      const lastActivity = await DataStore.query(Event, c =>
-        c.name("eq", clicked), 
-        {
-          sort: s => s.startLocalTime(SortDirection.DESCENDING),
-          limit: 1
-        }
-      );
-      await DataStore.save(
-        Event.copyOf(lastActivity[0], updated => {
-          updated.endLocalTime = moment().format();
-      }));
+      const lastActivity = await getActivityByName(clicked);
+      await updateEndLocalTime(lastActivity[0]);
       DataStore.delete(lastActivity[0]);
-      setActivity(null)
-    } else if (activity != null) {
-      const lastActivity = await DataStore.query(Event, c =>
-        c.name("eq", activity), 
-        {
-          sort: s => s.startLocalTime(SortDirection.DESCENDING),
-          limit: 1
-        }
-      );
-      await DataStore.save(
-        Event.copyOf(lastActivity[0], updated => {
-          updated.endLocalTime = moment().format();
-      }));
-      DataStore.delete(lastActivity[0]);
-      await DataStore.save(
-        new Event({
-          "name": clicked,
-          "startLocalTime": moment().format(),
-          "userName": userName
-        })
-      );  
-      setActivity(clicked)
-    } else {
+      setActivity(clickedActivities.filter(item=>item!==clicked));
+     
+      clickedActivities.splice(index-1,1);
+
+    }  else {
       console.log(clicked)
       await DataStore.save(
         new Event({
@@ -313,7 +308,8 @@ const Activity = () => {
           "userName": userName
         })
       );
-      setActivity(clicked)
+    
+      setActivity(state => [...state,clicked]);
     }
   }
 
@@ -449,7 +445,7 @@ const Activity = () => {
           {activities.map(({ name, icon }) => (
             <ActivityButton
               key={name}
-              {...{ name, icon, activity, updateActivity }}
+              {...{ name, icon, clickedActivities,updateActivity }}
             />
           ))}
         </Section>
@@ -492,7 +488,7 @@ const Sentiment = ({ name, icon, sentiment, updateSentiment }) => {
   )
 }
 
-const ActivityButton = ({ name, icon, activity, updateActivity }) => {
+const ActivityButton = ({ name, icon,clickedActivities, updateActivity }) => {
   const theme = useTheme()
   const Icon = icon
   const t = useTranslation()
@@ -523,7 +519,7 @@ const ActivityButton = ({ name, icon, activity, updateActivity }) => {
       }}
       onClick={updateActivity(name)}
     >
-      <div css={name === activity ? styles.selectedActivity : {}}>{icon}</div>
+      <div css={clickedActivities.includes(name) ? styles.selectedActivity : {}}>{icon}</div>
       <div css={styles.caption}>{t(name)}</div>
     </IconButton>
   )
