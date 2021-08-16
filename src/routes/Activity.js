@@ -119,14 +119,20 @@ const playAudio = () => {
   audio.play()
 }
 
-const setAlarm = () => {
-  playAudio();
-  navigator.vibrate([300, 100, 300, 100, 300]);
-  var d = new Date(),
-      h = new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), (d.getMinutes() - (d.getMinutes() % 1)) + 1, 0, 0),
-      e = h - d;
-
-  window.setTimeout(setAlarm, e);
+const setAlarm = async() => {
+  try {
+    const wakeLock = await navigator.wakeLock.request('screen');
+    playAudio();
+    navigator.vibrate([300, 100, 300, 100, 300]);
+    var d = new Date(),
+        h = new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), (d.getMinutes() - (d.getMinutes() % 1)) + 1, 0, 0),
+        e = h - d;
+  
+    window.setTimeout(setAlarm, e);  
+  } catch (err) {
+    // the wake lock request fails - usually system related, such being low on battery
+    console.log(`${err.name}, ${err.message}`);
+  }
 }
 setAlarm();  
 
