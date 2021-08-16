@@ -3,7 +3,7 @@ import { useState, useRef, useEffect, useContext } from 'react'
 import useTheme from '../styling/useTheme'
 
 import Page from '../layout/Page'
-
+import { createNewReport, updateEndLocalTime } from '../utility/DatastoreUtils'
 import useTranslation from '../i18n/useTranslation'
 
 import IconButton from '@material-ui/core/IconButton'
@@ -31,13 +31,8 @@ import red from '@material-ui/core/colors/red'
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { DataStore, SortDirection } from '@aws-amplify/datastore';
-import { Event } from '../models';
 import { Auth } from 'aws-amplify';
 
-import moment from 'moment';
-
-// DataStore.clear()
 
 const Section = ({ title, children, center = false }) => {
   const t = useTranslation()
@@ -120,7 +115,6 @@ const useStyles = makeStyles((theme) => ({
 const initialFormState = { name: '', description: '' }
 
 const Activity = () => {
-  console.log("start")
   const t = useTranslation()
   const [majorEvent, setMajorEvent] = useState(false)
   const [majorEvents, setMajorEvents] = useState([]);
@@ -141,108 +135,37 @@ const Activity = () => {
     { name: 'happy', icon: <Happy /> },
     { name: 'veryHappy', icon: <VeryHappy /> },
   ]
-  const [activity, setActivity] = useState()
+  const [clickedActivities,setActivity] = useState([0]);
+
   const [sentiment, setSentiment] = useState()
   const updateSentiment = clicked => async () => {
     if (clicked === sentiment) {
-      console.log(clicked)
-      const lastSentiment = await DataStore.query(Event, c =>
-        c.name("eq", clicked), 
-        {
-          sort: s => s.startLocalTime(SortDirection.DESCENDING),
-          limit: 1
-        }
-      );
-      await DataStore.save(
-        Event.copyOf(lastSentiment[0], updated => {
-          updated.endLocalTime = moment().format();
-      }));
-      DataStore.delete(lastSentiment[0]);
+      await updateEndLocalTime(clicked);
       setSentiment(null)
     } else if (sentiment != null) {
-      const lastSentiment = await DataStore.query(Event, c =>
-        c.name("eq", sentiment), 
-        {
-          sort: s => s.startLocalTime(SortDirection.DESCENDING),
-          limit: 1
-        }
-      );
-      await DataStore.save(
-        Event.copyOf(lastSentiment[0], updated => {
-          updated.endLocalTime = moment().format();
-      }));
-      DataStore.delete(lastSentiment[0]);
-      await DataStore.save(
-        new Event({
-          "name": clicked,
-          "startLocalTime": moment().format(),
-          "userName": userName
-        })
-      );  
+      await updateEndLocalTime(sentiment);
+      createNewReport(clicked, userName);
       setSentiment(clicked)
     } else {
-      console.log(clicked)
-      await DataStore.save(
-        new Event({
-          "name": clicked,
-          "startLocalTime": moment().format(),
-          "userName": userName
-        })
-      );
+      createNewReport(clicked, userName);
       setSentiment(clicked)
     }
   }
 
   const toggleMajorEvent = async () => {
     setMajorEvent(eventState => !eventState)
-    console.log("toggleMajorEvent")
     if (majorEvent){
-      const lastMajorEvent = await DataStore.query(Event, c =>
-        c.name("eq", "majorEvent"), 
-        {
-          sort: s => s.startLocalTime(SortDirection.DESCENDING),
-          limit: 1
-        }
-      );
-      await DataStore.save(
-        Event.copyOf(lastMajorEvent[0], updated => {
-          updated.endLocalTime = moment().format();
-      }));
-      DataStore.delete(lastMajorEvent[0]);
+      await updateEndLocalTime("majorEvent");
     } else {
-      await DataStore.save(
-        new Event({
-          "name": "majorEvent",
-          "startLocalTime": moment().format(),
-          "userName": userName
-        })
-      );
+      createNewReport("majorEvent", userName);
     }
   }
   const toggleModerateEvent = async () => {
     setModerateEvent(eventState => !eventState)
-    console.log("toggleModerateEvent")
     if (moderateEvent){
-      const lastModerateEvent = await DataStore.query(Event, c =>
-        c.name("eq", "moderateEvent"), 
-        {
-          sort: s => s.startLocalTime(SortDirection.DESCENDING),
-          limit: 1
-        }
-      );
-      await DataStore.save(
-        Event.copyOf(lastModerateEvent[0], updated => {
-          updated.endLocalTime = moment().format();
-      }));
-      DataStore.delete(lastModerateEvent[0]);
+      await updateEndLocalTime("moderateEvent");
     } else {
-      await DataStore.save(
-        new Event({
-          "name": "moderateEvent",
-          "startLocalTime": moment().format(),
-          "userName": userName
-        })
-      );
+      createNewReport("moderateEvent", userName);
     }
   }
 
@@ -261,52 +184,15 @@ const Activity = () => {
   ]
 
   const updateActivity = clicked => async () => {
-    if (clicked === activity) {
-      console.log(clicked)
-      const lastActivity = await DataStore.query(Event, c =>
-        c.name("eq", clicked), 
-        {
-          sort: s => s.startLocalTime(SortDirection.DESCENDING),
-          limit: 1
-        }
-      );
-      await DataStore.save(
-        Event.copyOf(lastActivity[0], updated => {
-          updated.endLocalTime = moment().format();
-      }));
-      DataStore.delete(lastActivity[0]);
-      setActivity(null)
-    } else if (activity != null) {
-      const lastActivity = await DataStore.query(Event, c =>
-        c.name("eq", activity), 
-        {
-          sort: s => s.startLocalTime(SortDirection.DESCENDING),
-          limit: 1
-        }
-      );
-      await DataStore.save(
-        Event.copyOf(lastActivity[0], updated => {
-          updated.endLocalTime = moment().format();
-      }));
-      DataStore.delete(lastActivity[0]);
-      await DataStore.save(
-        new Event({
-          "name": clicked,
-          "startLocalTime": moment().format(),
-          "userName": userName
-        })
-      );  
-      setActivity(clicked)
-    } else {
-      console.log(clicked)
-      await DataStore.save(
-        new Event({
-          "name": clicked,
-          "startLocalTime": moment().format(),
-          "userName": userName
-        })
-      );
-      setActivity(clicked)
+    if (clickedActivities.includes(clicked)) {
+      let index = clickedActivities.indexOf(clicked);
+      await updateEndLocalTime(clicked);
+      setActivity(clickedActivities.filter(item=>item!==clicked));
+      clickedActivities.splice(index-1,1);
+
+    }  else {
+      createNewReport(clicked, userName);
+      setActivity(state => [...state,clicked]);
     }
   }
 
@@ -434,7 +320,7 @@ const Activity = () => {
           {activities.map(({ name, icon }) => (
             <ActivityButton
               key={name}
-              {...{ name, icon, activity, updateActivity }}
+              {...{ name, icon, clickedActivities,updateActivity }}
             />
           ))}
         </Section>
@@ -477,7 +363,7 @@ const Sentiment = ({ name, icon, sentiment, updateSentiment }) => {
   )
 }
 
-const ActivityButton = ({ name, icon, activity, updateActivity }) => {
+const ActivityButton = ({ name, icon,clickedActivities, updateActivity }) => {
   const theme = useTheme()
   const Icon = icon
   const t = useTranslation()
@@ -508,7 +394,7 @@ const ActivityButton = ({ name, icon, activity, updateActivity }) => {
       }}
       onClick={updateActivity(name)}
     >
-      <div css={name === activity ? styles.selectedActivity : {}}>{icon}</div>
+      <div css={clickedActivities.includes(name) ? styles.selectedActivity : {}}>{icon}</div>
       <div css={styles.caption}>{t(name)}</div>
     </IconButton>
   )
