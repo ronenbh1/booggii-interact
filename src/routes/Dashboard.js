@@ -17,6 +17,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import FolderIcon from '@material-ui/icons/Folder';
 import DeleteIcon from '@material-ui/icons/Delete';
+import CreateIcon from '@material-ui/icons/Create';
 import TextField from '@material-ui/core/TextField';
 
 import Page from '../layout/Page'
@@ -77,8 +78,7 @@ const styles = {
     backgroundColor: `${lightGreen[500]} !important`,
     color: 'white',
     borderColor: 'transparent',
-    width: '6vw',
-    height: '6vw',
+ 
     // border: '5px solid white',
     '& > .MuiFab-label': {
       // display: 'flex',
@@ -96,8 +96,7 @@ const styles = {
     backgroundColor: `${lightGreen[500]} !important`,
     color: 'white',
     borderColor: 'transparent',
-    width: '10vw',
-    height: '10vw',
+
     border: '5px solid white',
     '& > .MuiFab-label': {
       // display: 'flex',
@@ -150,25 +149,7 @@ const styles = {
   }
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    maxWidth: 752,
-    justifyContent: 'space-between',
-  },
-  demo: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
-    textAlignLast: 'start',
-    backgroundColor: theme.palette.background.paper,
-    // justifyContent: 'space-evenly',
-    gap: '5rem'
-  },
-  title: {
-    margin: theme.spacing(4, 0, 2),
-  },
-}));
+
 
 const initialFormState = { name: '', description: '' }
 
@@ -211,7 +192,59 @@ function generate(events, element) {
     }),
   );
 }
-
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+ 
+    justifyContent: 'space-between',
+  },
+  demo: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    textAlignLast: 'start',
+    backgroundColor: theme.palette.background.paper,
+    // justifyContent: 'space-evenly',
+    gap: '5rem'
+  },
+  title: {
+    margin: theme.spacing(4, 0, 2),
+  },
+  event_element_block:{
+    'padding-right': '2vw',
+    'width': '98vw',
+    'border-bottom': '1px solid gray',
+    'padding-bottom': '1vh'
+  },
+  icon_name_container:{
+    'display': 'inline-block',
+    'width': '23vw'
+  },
+  activity_icon:{
+    'display': 'inline-block',
+    'margin-top': '4vh',
+    'vertical-align': 'middle',
+    'width': '10vw'
+  },
+  activity_name:{
+    'display': 'inline-block',
+    'margin-top': '4vh',
+    'vertical-align': 'middle',
+    'width': '13vw'
+  },
+  text_field_container:{
+    'display': 'inline-block',
+    'margin-right':'1vw',
+    'margin-left':'1vw'
+  },
+  textField:{
+    width:"31vw"
+  },
+  icons_container:{
+    'display': 'inline-block',
+    'vertical-align': 'bottom'
+  }
+}));
 const Dashboard = () => {
 
 // export default function InteractiveList() {
@@ -247,16 +280,19 @@ const Dashboard = () => {
                   <AddIcon />
                 </Fab>
                 <div className={classes.demo}>
-                  <List dense={dense}>
-                    {events.map(event => (
-                      <ListItem key={event.id}>
-                        <ListItemAvatar>
-                          {all_icons[event.name]}
-                        </ListItemAvatar>
-                        <ListItemText
-                          primary={t(event.name)}
-                        />
-                        <TextField
+                  <div>
+                  {events.map(event => (
+                    <div key={event.id} className={classes.event_element_block}>
+                      <div className={classes.icon_name_container}>
+                        <div className={classes.activity_icon}>
+                      {all_icons[event.name]}
+                        </div>
+                        <div className={classes.activity_name}>
+                      {t(event.name)}
+                        </div>
+                      </div>
+                      <div className={classes.text_field_container}>
+                      <TextField
                           label="Start"
                           type="datetime-local"
                           defaultValue={event.startLocalTime.slice(0, -6)}
@@ -265,6 +301,8 @@ const Dashboard = () => {
                             shrink: true,
                           }}
                         />
+                        </div>
+                        <div className={classes.text_field_container}>
                         <TextField
                           label="End"
                           type="datetime-local"
@@ -274,12 +312,26 @@ const Dashboard = () => {
                             shrink: true,
                           }}
                         />
+                        </div>
+                        <div className={classes.icons_container}>
+                          <div>
                         <IconButton edge="end" aria-label="delete">
                           <DeleteIcon />
                         </IconButton>
-                      </ListItem>
-                    ))}
-                  </List>
+                        </div>
+                        <div>
+                        <IconButton edge="end" aria-label="delete">
+                          <CreateIcon/>
+                        </IconButton>
+                       
+                      
+                        </div>
+                        </div>
+                    </div>
+
+                  ))}
+                  </div>
+                 
                 </div>
               </Grid>
             </Grid>
