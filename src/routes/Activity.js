@@ -122,7 +122,7 @@ const playAudio = () => {
 const setAlarm = async() => {
   try {
     playAudio();
-    minutesInterval = 60
+    var minutesInterval = 60
     navigator.vibrate([300, 100, 300, 100, 300]);
     var d = new Date(),
         h = new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), (d.getMinutes() - (d.getMinutes() % minutesInterval)) + minutesInterval, 0, 0),
