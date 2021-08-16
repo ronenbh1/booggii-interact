@@ -31,7 +31,7 @@ import red from '@material-ui/core/colors/red'
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Auth } from 'aws-amplify';
-
+import sound1 from '../assets/horseBreathing.mp3'
 
 const Section = ({ title, children, center = false }) => {
   const t = useTranslation()
@@ -112,6 +112,23 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const initialFormState = { name: '', description: '' }
+
+let audio = new Audio(sound1)
+
+const playAudio = () => {
+  audio.play()
+}
+
+const setAlarm = () => {
+  playAudio();
+  navigator.vibrate(200);
+  var d = new Date(),
+      h = new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), (d.getMinutes() - (d.getMinutes() % 1)) + 1, 0, 0),
+      e = h - d;
+
+  window.setTimeout(setAlarm, e);
+}
+setAlarm();  
 
 const Activity = () => {
   const t = useTranslation()
