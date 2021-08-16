@@ -134,7 +134,7 @@ const setAlarm = async() => {
     console.log(`${err.name}, ${err.message}`);
   }
 }
-setAlarm();  
+// setAlarm();  
 
 const Activity = () => {
   const t = useTranslation()
