@@ -121,7 +121,7 @@ const playAudio = () => {
 
 const setAlarm = () => {
   playAudio();
-  navigator.vibrate(200, 100, 200);
+  navigator.vibrate([300, 100, 300, 100, 300]);
   var d = new Date(),
       h = new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), (d.getMinutes() - (d.getMinutes() % 1)) + 1, 0, 0),
       e = h - d;
