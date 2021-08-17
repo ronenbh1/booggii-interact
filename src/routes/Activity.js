@@ -122,19 +122,25 @@ const playAudio = () => {
 const setAlarm = async() => {
   try {
     playAudio();
-    var hoursInterval = 1
+    const hoursInterval = 1
     navigator.vibrate([300, 100, 300, 100, 300]);
-    var d = new Date(),
-        h = new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours() + hoursInterval, 0, 0, 0),
-        e = h - d;
+    const currentTime = new Date();
+    let nextAlarmTime = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate(), currentTime.getHours() + hoursInterval, 0, 0, 0);
+    if (currentTime.getHours() > 20 && currentTime.getHours() < 24 ) {
+      nextAlarmTime = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate() + 1, 8 + hoursInterval, 0, 0, 0);
+    } else if (currentTime.getHours() > 0 && currentTime.getHours() < 8 ) {    
+      nextAlarmTime = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate(), 8 + hoursInterval, 0, 0, 0);
+    }
+
+    const leftToAlarmTime = nextAlarmTime - currentTime;
   
-    window.setTimeout(setAlarm, e);  
+    window.setTimeout(setAlarm, leftToAlarmTime);  
   } catch (err) {
     // the wake lock request fails - usually system related, such being low on battery
     console.log(`${err.name}, ${err.message}`);
   }
 }
-// setAlarm();  
+setAlarm();  
 
 const Activity = () => {
   const t = useTranslation()
