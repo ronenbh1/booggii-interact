@@ -170,12 +170,12 @@ const Home = () => {
 
   const routes = [
     {
-      path: 'activity',
+      path: 'report',
       component: <Activity />,
       icon: <ActivityLogIcon />,
-      title: t('activity'),
+      title: t('report'),
       color:
-        pathname === '/home/activity' ? menuItem.active : menuItem.inactive,
+        pathname === '/home/report' ? menuItem.active : menuItem.inactive,
     },
     {
       path: 'dashboard',

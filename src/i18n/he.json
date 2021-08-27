@@ -15,7 +15,7 @@
   "hiking": "מטייל",
   "withFamily": "משפחה",
   "sentiment": "מצב הרוח שלי",
-  "event": "אירוע",
+  "events": "אירועים",
   "noAuth": "אנא היכנסו עם משתמש וסיסמה תקינים",
   "tokenExpired": "פג תוקף האישור. יש להיכנס מחדש",
   "noSucnFile": "הקובץ לא נמצא",
@@ -37,5 +37,6 @@
   "logout": "יציאה",
   "Start Time": "זמן התחלה",
   "End Time": "זמן סיום",
-  "outside": "בחוץ"
+  "outside": "בחוץ",
+  "report": "דיווח"
 }

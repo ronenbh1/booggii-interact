@@ -52,7 +52,7 @@ function App() {
             <Router>
               <Switch>
                 <Route exact path="/">
-                  <Redirect to="/home/activity" />
+                  <Redirect to="/home/report" />
                 </Route>
                 <Route path="/home">
                   <Home />
