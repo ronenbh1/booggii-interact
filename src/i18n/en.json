@@ -36,5 +36,6 @@
   "appName": "Puzzle",
   "logout": "Logout",
   "Start Time": "Start Time",
-  "End Time": "End Time"
+  "End Time": "End Time",
+  "outside": "Outside"
 }

@@ -26,6 +26,7 @@ import LayDown from '@material-ui/icons/AirlineSeatFlatAngled'
 import ClosedSpace from '@material-ui/icons/DisabledByDefault'
 import Effort from '@material-ui/icons/FitnessCenter'
 import Crowded from '@material-ui/icons/Groups'
+import Outside from '@material-ui/icons/EmojiTransportation';
 import lightGreen from '@material-ui/core/colors/lightGreen'
 import red from '@material-ui/core/colors/red'
 import { makeStyles } from '@material-ui/core/styles';
@@ -209,6 +210,7 @@ const Activity = () => {
     { name: 'media', icon: <Media /> },
     { name: 'effort', icon: <Effort /> },
     { name: 'crowded', icon: <Crowded /> },
+    { name: 'outside', icon: <Outside /> },
   ]
 
   const updateActivity = clicked => async () => {
