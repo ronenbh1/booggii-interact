@@ -1,0 +1,35 @@
+.acticity_dropDown {
+    float: 'right';
+    width: 50%;
+    height: 5vh;
+    border: '1px solid gray';
+  }
+
+  .acticity_dropDown_inner {
+    width: "76vw";
+    margin-top: '1vh';
+  }
+
+  .acticity_dropDown:hover  {
+    background-color: 'rgba(0,0,0,0.2)';
+  }
+  .acticity_dropDown:nth-child(odd) {
+    margin-left: '2vw';
+    width: '50%';
+    margin-top: '1vh';
+    border: '1px solid gray';
+  }
+  .dropDown_closed {
+    Visibility: 'hidden'
+  }
+  .icon_name_dropDown{
+    display: inline-block;
+    width: 10vw;
+  }
+  .icon_name_container_popup {
+    width: 76vw;
+    display: flex;
+    position: fixed;
+    background-color:white;
+    z-index: 2;
+  }

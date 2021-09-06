@@ -1,0 +1,58 @@
+
+ .text_field_container_popup {
+    border: 1px
+  }
+  .acticity_dropDown {
+    float: right;
+    width: 50%;
+    height: 5vh;
+    border: 1px solid gray;
+  }
+  .acticity_dropDown_inner{
+    width: '76vw';
+    margin-top: 1vh;
+  }
+  .acticity_dropDown:hover {
+    background-color: rgba(0,0,0,0.2);
+  }
+  .dropDown_date_area_container{
+    margin-top: 8vh;
+  }
+  .speech-bubble {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 5px 10px 5px;
+    border-color: transparent transparent #121111 transparent;
+    position: absolute;
+    top: -0.7vh;
+    left: 34.75vw;
+}
+.event_Popup_element_block {
+    padding-right: 2vw;
+    width: 98vw;
+    padding-bottom: 1vh;
+  }
+  .icon_name_container_popup {
+    width: 70vw;
+    display: flex;
+    position: fixed;
+    background: white;
+  }
+  .icon_name_dropDown{
+    display: inline-block;
+    width: 10vw;
+  }
+  .activity_name_dorpDown {
+    display: inline-block;
+    margin-top: -1.5vh;
+    vertical-align: middle;
+  }
+  .textField_popup {
+    width: "79vw";
+  }
+  .date_display{
+        font-size: 0.8em;
+        display: inline-block;
+        vertical-align: -webkit-baseline-middle;
+ }

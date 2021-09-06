@@ -15,7 +15,7 @@
   "hiking": "מטייל",
   "withFamily": "משפחה",
   "sentiment": "מצב הרוח שלי",
-  "event": "אירוע",
+  "events": "אירועים",
   "noAuth": "אנא היכנסו עם משתמש וסיסמה תקינים",
   "tokenExpired": "פג תוקף האישור. יש להיכנס מחדש",
   "noSucnFile": "הקובץ לא נמצא",
@@ -43,5 +43,12 @@
   "verySad": "גרוע",
   "neutral": "סביר",
   "happy": "טוב",
-  "veryHappy": "שמח"
+  "veryHappy": "שמח",
+  "outside": "בחוץ",
+  "report": "דיווח",
+  "startTime":"תאריך התחלה",
+  "endTime":"תאריך סיום",
+  "chooseActivityOrSentiment":" בחר מצב רוח או פעילות",
+  "close":"סגור",
+  "save":"שמור"
 }

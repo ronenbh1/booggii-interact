@@ -43,5 +43,7 @@
   "verySad": "Very Sad",
   "neutral": "Neutral",
   "happy": "Happy",
-  "veryHappy": "Very Happy"
+  "veryHappy": "Very Happy",
+  "outside": "Outside",
+  "report": "Report"
 }

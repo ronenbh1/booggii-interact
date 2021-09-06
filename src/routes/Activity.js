@@ -26,13 +26,16 @@ import LayDown from '@material-ui/icons/AirlineSeatFlatAngled'
 import ClosedSpace from '@material-ui/icons/DisabledByDefault'
 import Effort from '@material-ui/icons/FitnessCenter'
 import Crowded from '@material-ui/icons/Groups'
+import Outside from '@material-ui/icons/EmojiTransportation';
 import lightGreen from '@material-ui/core/colors/lightGreen'
 import red from '@material-ui/core/colors/red'
 import TextField from '@material-ui/core/TextField';
+import amber from '@material-ui/core/colors/amber'
+
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Auth } from 'aws-amplify';
-
+import sound1 from '../assets/horseBreathing.mp3'
 
 const Section = ({ title, children, center = false }) => {
   const t = useTranslation()
@@ -54,7 +57,7 @@ const Section = ({ title, children, center = false }) => {
       flexGrow: '1',
       display: 'flex',
       justifyContent: center ? 'center' : 'space-evenly',
-      gap: title === 'event' ? '1rem' : title === 'activity' ? '2rem' : 'unset',
+      gap: title === 'events' ? '1rem' : title === 'activity' ? '2rem' : 'unset',
       alignItems: 'center',
       flexWrap: 'wrap',
     },
@@ -114,12 +117,41 @@ const useStyles = makeStyles((theme) => ({
 
 const initialFormState = { name: '', description: '' }
 
+let audio = new Audio(sound1)
+
+const playAudio = () => {
+  audio.play()
+}
+
+const setAlarm = async() => {
+  try {
+    playAudio();
+    const hoursInterval = 1
+    navigator.vibrate([300, 100, 300, 100, 300]);
+    const currentTime = new Date();
+    let nextAlarmTime = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate(), currentTime.getHours() + hoursInterval, 0, 0, 0);
+    if (currentTime.getHours() > 20 && currentTime.getHours() < 24 ) {
+      nextAlarmTime = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate() + 1, 8 + hoursInterval, 0, 0, 0);
+    } else if (currentTime.getHours() > 0 && currentTime.getHours() < 8 ) {    
+      nextAlarmTime = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate(), 8 + hoursInterval, 0, 0, 0);
+    }
+
+    const leftToAlarmTime = nextAlarmTime - currentTime;
+  
+    window.setTimeout(setAlarm, leftToAlarmTime);  
+  } catch (err) {
+    // the wake lock request fails - usually system related, such being low on battery
+    console.log(`${err.name}, ${err.message}`);
+  }
+}
+setAlarm();  
+
 const Activity = () => {
   const t = useTranslation()
   const [majorEvent, setMajorEvent] = useState(false)
   const [majorEvents, setMajorEvents] = useState([]);
-  const [moderateEvent, setModerateEvent] = useState(false)
-  const [moderateEvents, setModerateEvents] = useState([]);
+  const [interventionNedded, setInterventionNedded] = useState(false)
+  const [interventionNeddeds, setInterventionNeddeds] = useState([]);
   const [formData, setFormData] = useState(initialFormState);
   const [userName, setUserName] = useState("");
 
@@ -160,16 +192,17 @@ const Activity = () => {
       createNewReport("majorEvent", userName);
     }
   }
-  const toggleModerateEvent = async () => {
-    setModerateEvent(eventState => !eventState)
-    if (moderateEvent){
-      await updateEndLocalTime("moderateEvent");
+  const toggleInterventionNedded = async () => {
+    setInterventionNedded(eventState => !eventState)
+    if (interventionNedded){
+      await updateEndLocalTime("interventionNedded");
     } else {
-      createNewReport("moderateEvent", userName);
+      createNewReport("interventionNedded", userName);
     }
   }
 
   const activities = [
+    { name: 'outside', icon: <Outside /> },
     { name: 'walking', icon: <Walking /> },
     { name: 'layDown', icon: <LayDown /> },
     { name: 'dining', icon: <Dining /> },
@@ -220,7 +253,7 @@ const Activity = () => {
       borderColor: 'transparent',
       width: '20vw',
       height: '20vw',
-      border: '5px solid white',
+      border: '5px solid red',
       '& > .MuiFab-label': {
         // display: 'flex',
         justifyContent: 'center',
@@ -232,23 +265,23 @@ const Activity = () => {
         },
       },
     }),
-    moderateEvent: theme => ({
+    interventionNedded: theme => ({
       borderRadius: '50%',
-      backgroundColor: moderateEvent
-        ? `${red[500]} !important`
+      backgroundColor: interventionNedded
+        ? `${amber[500]} !important`
         : `${lightGreen[500]} !important`,
       color: 'white',
       borderColor: 'transparent',
       width: '15vw',
       height: '15vw',
-      border: '5px solid white',
+      border: '5px solid gold',
       '& > .MuiFab-label': {
         // display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         '& > svg': {
           fontSize: '2.5rem',
-          transform: `rotate(${moderateEvent ? 45 : 0}deg)`,
+          transform: `rotate(${interventionNedded ? 45 : 0}deg)`,
           transition: 'transform 0.25s',
         },
       },
@@ -296,7 +329,7 @@ const Activity = () => {
   const classes = useStyles();
 
   return (
-    <Page name="activity">
+    <Page name="report">
       <div css={styles.root}>
         <Section title="sentiment">
           {sentiments.map(({ name, icon }) => (
@@ -307,8 +340,8 @@ const Activity = () => {
           ))}
         </Section>
 
-        <Section title="event" center="true">
-          <Fab css={styles.moderateEvent} onClick={toggleModerateEvent}>
+        <Section title="events" center="true">
+          <Fab css={styles.interventionNedded} onClick={toggleInterventionNedded}>
             <AddIcon />
           </Fab>
           <Fab css={styles.majorEvent} onClick={toggleMajorEvent}>
