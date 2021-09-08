@@ -61,6 +61,8 @@ import lightGreen from '@material-ui/core/colors/lightGreen'
 import red from '@material-ui/core/colors/red'
 import '../routes/DashbordStyle.css'
 
+import moment from 'moment';
+
 const translate = {
   startTime: "startTime",
   endTime: "startTime",
@@ -378,14 +380,14 @@ const Dashboard = () => {
                       <div className={classes.text_field_container}>
                         <div className="date_display">
                         <div> {t('startTime')}</div>
-                          {event.startLocalTime ? event.startLocalTime.slice(0, -6).replace('T', ' ') : null}
+                          {event.startLocalTime ? moment(event.startLocalTime).format('DD/MM/YY hh:mm') : '--/--/-- --:--'}
                         </div>
 
                       </div>
                       <div className={classes.text_field_container}>
                         <div className="date_display">
                           <div> {t('endTime')}</div>
-                          {event.endLocalTime ? event.endLocalTime.slice(0, -6).replace('T', ' ') : '-- -- -- | -- -- --'}
+                          {event.endLocalTime ? moment(event.endLocalTime).format('DD/MM/YY hh:mm') : '--/--/-- --:--'}
                         </div>
                       </div>
                       <div className={classes.icons_container}>
@@ -434,7 +436,7 @@ const Dashboard = () => {
                           <TextField
                             label="Start"
                             type="datetime-local"
-                            defaultValue={popup.startLocalTime ? popup.startLocalTime.slice(0, -6) : ""}
+                            defaultValue={popup.startLocalTime ? moment(popup.event.startLocalTime).format('DD/MM/YY hh:mm') : ""}
                             className={classes.textField_popup}
                             InputLabelProps={{
                               shrink: true,
@@ -448,7 +450,7 @@ const Dashboard = () => {
                           <TextField
                             label="End"
                             type="datetime-local"
-                            defaultValue={popup.endLocalTime ? popup.endLocalTime.slice(0, -6) : null}
+                            defaultValue={popup.endLocalTime ? moment(popup.event.endLocalTime).format('DD/MM/YY hh:mm') : null}
                             className={classes.textField_popup}
                             InputLabelProps={{
                               shrink: true,

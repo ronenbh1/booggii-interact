@@ -4,7 +4,7 @@ import moment from 'moment';
 
 // DataStore.clear();
 
-const getActivityByName = async (name) => {
+const getLastActivityByName = async (name) => {
     const lastActivity = await DataStore.query(Event, c =>
       c.name("eq", name), 
       {
@@ -16,7 +16,7 @@ const getActivityByName = async (name) => {
   }
 
 export const updateEndLocalTime = async (name) => {
-    const lastActivity = await getActivityByName(name);
+    const lastActivity = await getLastActivityByName(name);
     await DataStore.save(
         Event.copyOf(lastActivity[0], updated => {
         updated.endLocalTime = moment().format();

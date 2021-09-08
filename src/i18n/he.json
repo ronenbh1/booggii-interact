@@ -46,8 +46,8 @@
   "veryHappy": "שמח",
   "outside": "בחוץ",
   "report": "דיווח",
-  "startTime":"תאריך התחלה",
-  "endTime":"תאריך סיום",
+  "startTime":"זמן התחלה",
+  "endTime":"זמן סיום",
   "chooseActivityOrSentiment":" בחר מצב רוח או פעילות",
   "close":"סגור",
   "save":"שמור"
