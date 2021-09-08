@@ -60,8 +60,8 @@ import Crowded from '@material-ui/icons/Groups'
 import lightGreen from '@material-ui/core/colors/lightGreen'
 import red from '@material-ui/core/colors/red'
 import '../routes/DashbordStyle.css'
-
 import moment from 'moment';
+import amber from '@material-ui/core/colors/amber'
 
 const translate = {
   startTime: "startTime",
@@ -86,11 +86,10 @@ const styles = {
   },
   majorEvent: theme => ({
     borderRadius: '50%',
-    backgroundColor: `${lightGreen[500]} !important`,
+	  backgroundColor: `${red[500]} !important`,
     color: 'white',
-    borderColor: 'transparent',
-
-    // border: '5px solid white',
+    borderColor: 'transparent',				 
+    border: '5px solid red',
     '& > .MuiFab-label': {
       // display: 'flex',
       justifyContent: 'start',
@@ -102,20 +101,19 @@ const styles = {
       },
     },
   }),
-  moderateEvent: theme => ({
+  interventionNedded: theme => ({
     borderRadius: '50%',
-    backgroundColor: `${lightGreen[500]} !important`,
+    backgroundColor: `${amber[500]} !important`,
     color: 'white',
     borderColor: 'transparent',
-
-    border: '5px solid white',
+    border: '5px solid gold',
     '& > .MuiFab-label': {
       // display: 'flex',
       justifyContent: 'start',
       alignItems: 'start',
       '& > svg': {
         fontSize: '2.5rem',
-        // transform: `rotate(${moderateEvent ? 45 : 0}deg)`,
+        // transform: `rotate(${interventionNedded ? 45 : 0}deg)`,
         transition: 'transform 0.25s',
       },
     },
@@ -187,7 +185,7 @@ const activities = {
 }
 
 const eventIcons = {
-  "moderateEvent": <AddIcon css={styles.moderateEvent} />,
+  "interventionNedded": <AddIcon css={styles.interventionNedded} />,
   "majorEvent": <AddIcon css={styles.majorEvent} />
 }
 
