@@ -172,10 +172,10 @@ const Activity = () => {
   const [sentiment, setSentiment] = useState()
   const updateSentiment = clicked => async () => {
     if (clicked === sentiment) {
-      await updateEndLocalTime(clicked);
+      await updateEndLocalTime(clicked, userName);
       setSentiment(null)
     } else if (sentiment != null) {
-      await updateEndLocalTime(sentiment);
+      await updateEndLocalTime(sentiment, userName);
       createNewReport(clicked, userName);
       setSentiment(clicked)
     } else {
@@ -187,7 +187,7 @@ const Activity = () => {
   const toggleMajorEvent = async () => {
     setMajorEvent(eventState => !eventState)
     if (majorEvent){
-      await updateEndLocalTime("majorEvent");
+      await updateEndLocalTime("majorEvent", userName);
     } else {
       createNewReport("majorEvent", userName);
     }
@@ -195,7 +195,7 @@ const Activity = () => {
   const toggleInterventionNedded = async () => {
     setInterventionNedded(eventState => !eventState)
     if (interventionNedded){
-      await updateEndLocalTime("interventionNedded");
+      await updateEndLocalTime("interventionNedded", userName);
     } else {
       createNewReport("interventionNedded", userName);
     }
@@ -219,7 +219,7 @@ const Activity = () => {
   const updateActivity = clicked => async () => {
     if (clickedActivities.includes(clicked)) {
       let index = clickedActivities.indexOf(clicked);
-      await updateEndLocalTime(clicked);
+      await updateEndLocalTime(clicked, userName);
       setActivity(clickedActivities.filter(item=>item!==clicked));
       clickedActivities.splice(index-1,1);
 

@@ -62,6 +62,10 @@ import red from '@material-ui/core/colors/red'
 import '../routes/DashbordStyle.css'
 import moment from 'moment';
 import amber from '@material-ui/core/colors/amber'
+import { Auth } from 'aws-amplify';
+import { createNewReport, updateEndLocalTime, getAllReports } from '../utility/DatastoreUtils';
+import { DataStore, SortDirection } from '@aws-amplify/datastore';
+import { Event } from '../models';
 
 const translate = {
   startTime: "startTime",
@@ -343,14 +347,37 @@ const Dashboard = () => {
   const [events, setEvents] = useState([]);
   const [formData, setFormData] = useState(initialFormState);
 
+  const [userName, setUserName] = useState("");
+  
+  Auth.currentAuthenticatedUser()
+  .then(user => {
+    setUserName(user.getUsername());
+    })
+
+  console.log("userName:", userName);
+
+  
   useEffect(() => {
+    Auth.currentAuthenticatedUser()
+    .then(user => {
+      setUserName(user.getUsername());
+      })
+  
+    async function fetchEvents(userName) {
+      console.log("fetchEvents", userName);
+      const reports = await DataStore.query(Event, (c) =>
+        c.userName("eq", "ronenbh1@gmail.com"), 
+        {
+          sort: s => s.startLocalTime(SortDirection.DESCENDING),
+        }
+      );
+      console.log("reports", reports);
+      setEvents(reports);
+    }
+  
     fetchEvents();
   }, []);
 
-  async function fetchEvents() {
-    const apiData = await API.graphql({ query: listEvents });
-    setEvents(apiData.data.listEvents.items);
-  }
 
   return (
     <Page name="dashboard" className={classes.root}>
