@@ -350,6 +350,7 @@ const Dashboard = () => {
   const [formData, setFormData] = useState(initialFormState);
 
   const [userName, setUserName] = useState("");
+  const [updateEvents, setUpdateEvents] = useState(false);
 
 
   async function fetchEvents() {
@@ -371,7 +372,17 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchEvents();
-  }, [userName]);
+  }, [userName, updateEvents]);
+
+  function onSave() {
+    console.log("onSave:", popup);
+  }
+
+  function onDelete(event) {
+    console.log("onDelete:", event);
+    DataStore.delete(event);
+    setUpdateEvents(!updateEvents);
+  }
 
   return (
     <Page name="dashboard" className={classes.root}>
@@ -410,7 +421,7 @@ const Dashboard = () => {
                         </div>
                       </div>
                       <div className={classes.icons_container}>
-                        <div>
+                        <div onClick={() => { onDelete(event); }}>
                           <IconButton edge="end" aria-label="delete">
                             <DeleteIcon />
                           </IconButton>
@@ -424,7 +435,7 @@ const Dashboard = () => {
                     </div>
 
                   ))}
-                  <DashboardPopup trigger={popup} setTrigger={setpopup} setDropDown={setdropDown} >
+                  <DashboardPopup trigger={popup} setTrigger={setpopup} setDropDown={setdropDown} onSave={onSave}>
                     <div name={popup.userName} className={classes.event_Popup_element_block}>
                       <div>{t('chooseActivityOrSentiment')}</div>
 
@@ -455,7 +466,7 @@ const Dashboard = () => {
                           <TextField
                             label="Start"
                             type="datetime-local"
-                            defaultValue={popup.startLocalTime ? moment(popup.event.startLocalTime).format('DD/MM/YY hh:mm') : ""}
+                            defaultValue={popup.startLocalTime ? moment(popup.startLocalTime).format("YYYY-MM-DDThh:mm") : ""}
                             className={classes.textField_popup}
                             InputLabelProps={{
                               shrink: true,
@@ -469,7 +480,7 @@ const Dashboard = () => {
                           <TextField
                             label="End"
                             type="datetime-local"
-                            defaultValue={popup.endLocalTime ? moment(popup.event.endLocalTime).format('DD/MM/YY hh:mm') : null}
+                            defaultValue={popup.endLocalTime ? moment(popup.event.endLocalTime).format("YYYY-MM-DDThh:mm") : null}
                             className={classes.textField_popup}
                             InputLabelProps={{
                               shrink: true,
