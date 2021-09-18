@@ -57,6 +57,7 @@ import LayDown from '@material-ui/icons/AirlineSeatFlatAngled'
 import ClosedSpace from '@material-ui/icons/DisabledByDefault'
 import Effort from '@material-ui/icons/FitnessCenter'
 import Crowded from '@material-ui/icons/Groups'
+import Outside from '@material-ui/icons/EmojiTransportation';
 import lightGreen from '@material-ui/core/colors/lightGreen'
 import red from '@material-ui/core/colors/red'
 import '../routes/DashbordStyle.css'
@@ -186,6 +187,7 @@ const activities = {
   'media': <Media />,
   'effort': <Effort />,
   'crowded': <Crowded />,
+  'outside': <Outside />,
 }
 
 const eventIcons = {
