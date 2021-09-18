@@ -1,4 +1,6 @@
 import { useSelector } from 'react-redux'
+import { Auth } from 'aws-amplify';
+import { useState, useRef, useEffect, useContext } from 'react'
 
 export const useMode = () => {
   const mode = useSelector(store => store.app.mode)
@@ -52,9 +54,16 @@ export const useLocaleDate = date => {
 }
 
 export const useUser = () => {
+  const [userName, setUserName] = useState("");
   let username = useSelector(store => store.users.loggedIn?.username)
-  username = username || 'Yoram'
-  return { username }
+  if (username == null){
+    Auth.currentAuthenticatedUser()
+    .then(user => {
+      setUserName(user.username)
+    })
+  }
+  username = userName
+  return userName
 }
 
 export const capitalize = s => {

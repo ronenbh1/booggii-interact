@@ -348,36 +348,28 @@ const Dashboard = () => {
   const [formData, setFormData] = useState(initialFormState);
 
   const [userName, setUserName] = useState("");
-  
-  Auth.currentAuthenticatedUser()
-  .then(user => {
-    setUserName(user.getUsername());
-    })
 
-  console.log("userName:", userName);
 
-  
-  useEffect(() => {
-    Auth.currentAuthenticatedUser()
+  async function fetchEvents() {
+    let username = await Auth.currentAuthenticatedUser()
     .then(user => {
-      setUserName(user.getUsername());
+        return user.getUsername();
       })
   
-    async function fetchEvents(userName) {
-      console.log("fetchEvents", userName);
-      const reports = await DataStore.query(Event, (c) =>
-        c.userName("eq", "ronenbh1@gmail.com"), 
-        {
-          sort: s => s.startLocalTime(SortDirection.DESCENDING),
-        }
-      );
-      console.log("reports", reports);
-      setEvents(reports);
-    }
-  
-    fetchEvents();
-  }, []);
+    setUserName(username)
+    console.log("userName", userName);
+    const reports = await DataStore.query(Event, (c) =>
+      c.userName("eq", username), 
+      {
+        sort: s => s.startLocalTime(SortDirection.DESCENDING),
+      }
+    );
+    setEvents(reports);
+  }
 
+  useEffect(() => {
+    fetchEvents();
+  }, [userName]);
 
   return (
     <Page name="dashboard" className={classes.root}>

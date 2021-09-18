@@ -43,7 +43,7 @@ const Home = () => {
   const theme = useTheme({ mode, direction })
   const open = useDrawer()
 
-  let { username } = useUser()
+  let username = useUser()
 
   const t = useTranslation()
   const dispatch = useDispatch()
@@ -153,7 +153,7 @@ const Home = () => {
     },
     user: {
       position: 'absolute',
-      top: '-5rem',
+      top: '-15rem',
       right: '1rem',
       writingMode: 'vertical-lr',
       transform: 'rotate(180deg)',
