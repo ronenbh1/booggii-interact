@@ -58,6 +58,10 @@ import ClosedSpace from '@material-ui/icons/DisabledByDefault'
 import Effort from '@material-ui/icons/FitnessCenter'
 import Crowded from '@material-ui/icons/Groups'
 import Outside from '@material-ui/icons/EmojiTransportation';
+import InCar from '@material-ui/icons/DirectionsCarFilled';
+import Medication from '@material-ui/icons/Medication';
+import WakeUp from '@material-ui/icons/WbSunny';
+
 import lightGreen from '@material-ui/core/colors/lightGreen'
 import red from '@material-ui/core/colors/red'
 import '../routes/DashbordStyle.css'
@@ -188,6 +192,9 @@ const activities = {
   'effort': <Effort />,
   'crowded': <Crowded />,
   'outside': <Outside />,
+  'inCar': <InCar />,
+  'medication': <Medication />,
+  'wakeUp': <WakeUp />,
 }
 
 const eventIcons = {
