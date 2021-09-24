@@ -38,5 +38,8 @@
   "Start Time": "Start Time",
   "End Time": "End Time",
   "outside": "Outside",
-  "report": "Report"
+  "report": "Report",
+  "inCar": "InCar",
+  "medication": "Medication",
+  "wakeUp": "WakeUp"
 }

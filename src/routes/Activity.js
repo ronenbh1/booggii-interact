@@ -19,7 +19,7 @@ import Walking from '@material-ui/icons/DirectionsWalk'
 import Riding from '@material-ui/icons/BedroomBaby'
 import Dining from '@material-ui/icons/Fastfood'
 import Sleeping from '@material-ui/icons/Hotel'
-import Driving from '@material-ui/icons/DirectionsCarFilled'
+import Driving from '@material-ui/icons/CatchingPokemon'
 import WithFamily from '@material-ui/icons/FamilyRestroom'
 import Media from '@material-ui/icons/Theaters'
 import LayDown from '@material-ui/icons/AirlineSeatFlatAngled'
@@ -27,6 +27,10 @@ import ClosedSpace from '@material-ui/icons/DisabledByDefault'
 import Effort from '@material-ui/icons/FitnessCenter'
 import Crowded from '@material-ui/icons/Groups'
 import Outside from '@material-ui/icons/EmojiTransportation';
+import InCar from '@material-ui/icons/DirectionsCarFilled';
+import Medication from '@material-ui/icons/Medication';
+import WakeUp from '@material-ui/icons/WbSunny';
+
 import lightGreen from '@material-ui/core/colors/lightGreen'
 import red from '@material-ui/core/colors/red'
 import amber from '@material-ui/core/colors/amber'
@@ -204,14 +208,17 @@ const Activity = () => {
     { name: 'walking', icon: <Walking /> },
     { name: 'layDown', icon: <LayDown /> },
     { name: 'dining', icon: <Dining /> },
-    { name: 'riding', icon: <Riding /> },
+    // { name: 'riding', icon: <Riding /> },
     { name: 'driving', icon: <Driving /> },
     { name: 'closedSpace', icon: <ClosedSpace /> },
-    { name: 'withFamily', icon: <WithFamily /> },
+    // { name: 'withFamily', icon: <WithFamily /> },
     { name: 'sleeping', icon: <Sleeping /> },
     { name: 'media', icon: <Media /> },
-    { name: 'effort', icon: <Effort /> },
+    // { name: 'effort', icon: <Effort /> },
     { name: 'crowded', icon: <Crowded /> },
+    { name: 'inCar', icon: <InCar /> },
+    { name: 'medication', icon: <Medication /> },
+    { name: 'wakeUp', icon: <WakeUp /> },
   ]
 
   const updateActivity = clicked => async () => {
