@@ -64,9 +64,10 @@ import '../routes/DashbordStyle.css'
 import moment from 'moment';
 import amber from '@material-ui/core/colors/amber'
 import { Auth } from 'aws-amplify';
-import { createNewReport, updateEndLocalTime, getAllReports } from '../utility/DatastoreUtils';
+import {updateReport,createReportRetro} from '../utility/DatastoreUtils';
 import { DataStore, SortDirection } from '@aws-amplify/datastore';
 import { Event } from '../models';
+import {EventModule} from '../models/eventModule';
 
 const translate = {
   startTime: "startTime",
@@ -374,9 +375,24 @@ const Dashboard = () => {
     fetchEvents();
   }, [userName, updateEvents]);
 
-  function onSave() {
+  function onSave(event) {
+    setdropDown(false);
+    setpopup(false);
+    if(event.id){
+      updateReport(event);
+      console.log("onUpdate:", popup);
+    }
+    else{
+    createReportRetro(event);
+    console.log("onCreation:", popup);
+  }
+  }
+  function onClose() {
+    setdropDown(false);
+    setpopup(false);
     console.log("onSave:", popup);
   }
+
 
   function onDelete(event) {
     console.log("onDelete:", event);
@@ -392,7 +408,7 @@ const Dashboard = () => {
           <div className={classes.root} dir={direction} >
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
-                <Fab color="primary" aria-label="add" className={classes.demo} onClick={() => setpopup(new Event(null))}>
+                <Fab color="primary" aria-label="add" className={classes.demo} onClick={() => setpopup(new EventModule())}>
                   <AddIcon />
                 </Fab>
                 <div className={classes.demo}>
@@ -426,7 +442,7 @@ const Dashboard = () => {
                             <DeleteIcon />
                           </IconButton>
                         </div>
-                        <div onClick={() => { console.log(popup); setpopup(event) }}>
+                        <div onClick={() => { console.log(popup); setpopup(new EventModule(event.id,event.name, event.startLocalTime,event.userName) ) }}>
                           <IconButton edge="end" aria-label="delete">
                             <CreateIcon />
                           </IconButton>
@@ -435,7 +451,7 @@ const Dashboard = () => {
                     </div>
 
                   ))}
-                  <DashboardPopup trigger={popup} setTrigger={setpopup} setDropDown={setdropDown} onSave={onSave}>
+                  <DashboardPopup trigger={popup} onClose={onClose} onSave={onSave}>
                     <div name={popup.userName} className={classes.event_Popup_element_block}>
                       <div>{t('chooseActivityOrSentiment')}</div>
 
