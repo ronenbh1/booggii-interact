@@ -46,5 +46,8 @@
   "happy": "Happy",
   "veryHappy": "Very Happy",
   "outside": "Outside",
-  "report": "Report"
+  "report": "Report",
+  "inCar": "InCar",
+  "medication": "Medication",
+  "wakeUp": "WakeUp"
 }

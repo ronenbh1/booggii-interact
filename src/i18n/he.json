@@ -51,5 +51,9 @@
   "endTime":"זמן סיום",
   "chooseActivityOrSentiment":" בחר מצב רוח או פעילות",
   "close":"סגור",
-  "save":"שמור"
+  "save":"שמור",
+  "inCar": "ברכב",
+  "medication": "תרופה",
+  "wakeUp": "יקיצה"
+
 }
