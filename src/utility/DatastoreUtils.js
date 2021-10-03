@@ -38,7 +38,6 @@ export const updateEndLocalTime = async (name, userName) => {
         Event.copyOf(lastActivity[0], updated => {
         updated.endLocalTime = moment().format();
     }));
-    DataStore.delete(lastActivity[0]);
 }
 
 export const updateActivity = async (name, userName) => {
@@ -47,7 +46,6 @@ export const updateActivity = async (name, userName) => {
       Event.copyOf(lastActivity[0], updated => {
       updated.endLocalTime = moment().format();
   }));
-  DataStore.delete(lastActivity[0]);
 }
 
 export const createNewReport = async (clicked, userName) => {
@@ -62,14 +60,13 @@ export const createNewReport = async (clicked, userName) => {
 
 export const updateReport = async (updatedActivity) =>{
   const activity = await getActivityById(updatedActivity.id, updatedActivity.userName);
+  console.log("updateReport", activity[0]);
   await DataStore.save(
     Event.copyOf(activity[0], updated => {
-    updated.endLocalTime = moment().format();
-    updated.name=updatedActivity.name;
-    updated.startLocalTime=updatedActivity.startLocalTime;
-    updated.endLocalTime=updatedActivity.endLocalTime;
+    updated.name = updatedActivity.name;
+    updated.startLocalTime = updatedActivity.startLocalTime;
+    updated.endLocalTime = updatedActivity.endLocalTime;
 }));
-DataStore.delete(activity[0]);
 }
 
 export const createReportRetro = async (updatedActivity) =>{

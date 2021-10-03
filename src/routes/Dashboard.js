@@ -72,6 +72,7 @@ import {updateReport,createReportRetro} from '../utility/DatastoreUtils';
 import { DataStore, SortDirection } from '@aws-amplify/datastore';
 import { Event } from '../models';
 import {EventModule} from '../models/eventModule';
+import { Refresh } from '@material-ui/icons';
 
 const translate = {
   startTime: "startTime",
@@ -375,6 +376,7 @@ const Dashboard = () => {
         sort: s => s.startLocalTime(SortDirection.DESCENDING),
       }
     );
+    console.log("reports", reports);
     setEvents(reports);
   }
 
@@ -384,20 +386,25 @@ const Dashboard = () => {
 
   function onSave(event) {
     setdropDown(false);
-    setpopup(false);
-    if(event.id){
-      updateReport(event);
+    if(popup.id){
+      updateReport(popup);
       console.log("onUpdate:", popup);
     }
     else{
-    createReportRetro(event);
+    createReportRetro(popup);
     console.log("onCreation:", popup);
+    }
+    setpopup(false);
+    fetchEvents();
+    setUpdateEvents(!updateEvents);
+    Refresh();
+    console.log("setUpdateEvents:", updateEvents);
   }
-  }
+
   function onClose() {
     setdropDown(false);
     setpopup(false);
-    console.log("onSave:", popup);
+    console.log("onClose:", popup);
   }
 
 
@@ -449,7 +456,7 @@ const Dashboard = () => {
                             <DeleteIcon />
                           </IconButton>
                         </div>
-                        <div onClick={() => { console.log(popup); setpopup(new EventModule(event.id,event.name, event.startLocalTime,event.userName) ) }}>
+                        <div onClick={() => { console.log(popup); setpopup(new EventModule(event.id,event.name, event.startLocalTime, event.endLocalTime, event.userName) ) }}>
                           <IconButton edge="end" aria-label="delete">
                             <CreateIcon />
                           </IconButton>
@@ -458,7 +465,7 @@ const Dashboard = () => {
                     </div>
 
                   ))}
-                  <DashboardPopup trigger={popup} onClose={onClose} onSave={onSave}>
+                  <DashboardPopup trigger={popup} onClose={onClose} onSave={(popup) => { console.log("onSave:", popup); onSave(popup);}}>
                     <div name={popup.userName} className={classes.event_Popup_element_block}>
                       <div>{t('chooseActivityOrSentiment')}</div>
 
@@ -494,6 +501,7 @@ const Dashboard = () => {
                             InputLabelProps={{
                               shrink: true,
                             }}
+                            onChange={(event) => { console.log("onChange:", popup); popup.startLocalTime = moment(event.target.value).format();}}
                           />
                         </div>
                         <div>
@@ -503,11 +511,12 @@ const Dashboard = () => {
                           <TextField
                             label="End"
                             type="datetime-local"
-                            defaultValue={popup.endLocalTime ? moment(popup.event.endLocalTime).format("YYYY-MM-DDThh:mm") : null}
+                            defaultValue={popup.endLocalTime ? moment(popup.endLocalTime).format("YYYY-MM-DDThh:mm") : ""}
                             className={classes.textField_popup}
                             InputLabelProps={{
                               shrink: true,
                             }}
+                            onChange={(event) => { console.log("onChange:", popup); popup.endLocalTime = moment(event.target.value).format();}}
                           />
                         </div>
                       </div>
