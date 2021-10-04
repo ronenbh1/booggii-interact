@@ -197,7 +197,7 @@ const useStyles = makeStyles((theme) => ({
   },
   icon_name_container: {
     'display': 'inline-block',
-    'width': '23vw'
+    'width': 'fit-content'
   },
   icon_name_container_popup: {
     'width': '76vw',
@@ -240,8 +240,11 @@ const useStyles = makeStyles((theme) => ({
     width: "79vw"
   },
   icons_container: {
-    'display': 'inline-block',
-    'vertical-align': 'bottom'
+    'display': 'inline-flex',
+    'vertical-align': 'sub',
+    'align-items': 'center',
+    'justifyContent': 'space-evenly',
+    'columnGap': '5vw'
   },
   popup: {
     'position': 'fixed',
@@ -384,9 +387,9 @@ const Dashboard = () => {
                         <div className={classes.activity_icon}>
                           {event.name ? all_icons[event.name] : ""}
                         </div>
-                        <div className={classes.activity_name}>
+                        {/* <div className={classes.activity_name}>
                           {event.name ? t(event.name) : ""}
-                        </div>
+                        </div> */}
                       </div>
                       <div className={classes.text_field_container}>
                         <div className="date_display">
@@ -402,14 +405,14 @@ const Dashboard = () => {
                         </div>
                       </div>
                       <div className={classes.icons_container}>
+                        <div onClick={() => { console.log(popup); setpopup(new EventModule(event.id,event.name, event.startLocalTime, event.endLocalTime, event.userName) ) }}>
+                          <IconButton edge="end" aria-label="create">
+                            <CreateIcon />
+                          </IconButton>
+                        </div>
                         <div onClick={() => { onDelete(event); }}>
                           <IconButton edge="end" aria-label="delete">
                             <DeleteIcon />
-                          </IconButton>
-                        </div>
-                        <div onClick={() => { console.log(popup); setpopup(new EventModule(event.id,event.name, event.startLocalTime, event.endLocalTime, event.userName) ) }}>
-                          <IconButton edge="end" aria-label="delete">
-                            <CreateIcon />
                           </IconButton>
                         </div>
                       </div>
