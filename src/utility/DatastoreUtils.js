@@ -60,13 +60,12 @@ export const createNewReport = async (clicked, userName) => {
 
 export const updateReport = async (updatedActivity) =>{
   const activity = await getActivityById(updatedActivity.id, updatedActivity.userName);
-  console.log("updateReport", activity[0]);
   await DataStore.save(
     Event.copyOf(activity[0], updated => {
     updated.name = updatedActivity.name;
     updated.startLocalTime = updatedActivity.startLocalTime;
     updated.endLocalTime = updatedActivity.endLocalTime;
-}));
+  }));
 }
 
 export const createReportRetro = async (updatedActivity) =>{

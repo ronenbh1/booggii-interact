@@ -335,7 +335,7 @@ const Dashboard = () => {
     fetchEvents();
   }, [userName, updateEvents]);
 
-  function onSave(event) {
+  async function onSave(event) {
     setdropDown(false);
     if(popup.id){
       updateReport(popup);
@@ -346,7 +346,7 @@ const Dashboard = () => {
       console.log("onCreation:", popup);
     }
     setpopup(false);
-    fetchEvents();
+    await new Promise(r => setTimeout(r,1000));
     setUpdateEvents(!updateEvents);
     console.log("setUpdateEvents:", updateEvents);
   }
