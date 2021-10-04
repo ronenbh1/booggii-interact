@@ -372,8 +372,9 @@ const Dashboard = () => {
           <div className={classes.root} dir={direction} >
             <Grid container spacing={2}>
               <Grid item xs={12} md={6}>
-                <Fab color="primary" aria-label="add" className={classes.demo} onClick={() => {let newEvent = new EventModule(); newEvent.userName = userName; setpopup(newEvent);}}>
+                <Fab color="primary" variant="extended" size="medium" aria-label="add" onClick={() => {let newEvent = new EventModule(); newEvent.userName = userName; setpopup(newEvent);}}>
                   <AddIcon />
+                  {t('addReport')}
                 </Fab>
                 <div className={classes.demo}>
 
