@@ -50,5 +50,8 @@
   "inCar": "InCar",
   "medication": "Medication",
   "wakeUp": "WakeUp",
-  "addReport": "Add Report"
+  "addReport": "Add Report",
+  "confirm":"Confirm",
+  "AfterYouDeleteThisItemYouCantRestoreIt":"After you delete this item you cant restore it",
+  "DoYouWantToApplyTheChanges":"Do you want to apply the changes?"
 }

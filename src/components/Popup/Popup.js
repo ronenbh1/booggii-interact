@@ -35,7 +35,7 @@ const DashboardPopup = (props) => {
         </div>
         <div className="buttons_container">
        <Button className="buttons" variant="contained" onClick={()=>{props.onClose();}}> {t('close')}</Button>
-       <Button className="buttons" variant="contained" onClick={()=>{console.log("onpopupSave:", props); props.onSave(props.trigger);}}> {t('save')}</Button>
+       <Button className="buttons" variant="contained" onClick={()=>{console.log("onpopupSave:", props); props.onSave(props.trigger);}}> {t('confirm')}</Button>
           </div>
       </div>
     </div>

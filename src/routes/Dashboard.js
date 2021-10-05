@@ -290,6 +290,9 @@ const useStyles = makeStyles((theme) => ({
   },
   'dropDown_closed': {
     'Visibility': 'hidden'
+  },
+  'text_margin':{
+    'margin-bottom': '1vh'
   }
 }));
 const Dashboard = () => {
@@ -297,12 +300,11 @@ const Dashboard = () => {
 
   // export default function InteractiveList() {
   const classes = useStyles();
-  const [dense, setDense] = useState(false);
-  const [secondary, setSecondary] = useState(false);
 
-  const [aa, setaa] = useState(false);
-  const [bb, setbb] = useState(false);
   const [popup, setpopup] = useState(false);
+
+  const [deletePopup, setdeletePopup] = useState(false);
+  
   const [dropDown, setdropDown] = useState(false);
   const theme = useTheme()
   const { mode, light } = useMode()
@@ -357,6 +359,7 @@ const Dashboard = () => {
   function onClose() {
     setdropDown(false);
     setpopup(false);
+    setdeletePopup(false);
     console.log("onClose:", popup);
   }
 
@@ -365,6 +368,7 @@ const Dashboard = () => {
     console.log("onDelete:", event);
     DataStore.delete(event);
     setUpdateEvents(!updateEvents);
+    setdeletePopup(false);
   }
 
   return (
@@ -410,12 +414,22 @@ const Dashboard = () => {
                             <CreateIcon />
                           </IconButton>
                         </div>
-                        <div onClick={() => { onDelete(event); }}>
+                        <div onClick={() => {setdeletePopup(event);}}>
                           <IconButton edge="end" aria-label="delete">
                             <DeleteIcon />
                           </IconButton>
                         </div>
+                       
                       </div>
+                      <DashboardPopup trigger={deletePopup} onClose={onClose} onSave={onDelete}>
+                        <div>
+                         {t('AfterYouDeleteThisItemYouCantRestoreIt')} 
+                        </div>
+                        <div className={classes.text_margin}>
+                        {t('DoYouWantToApplyTheChanges')}
+                          </div>
+                        
+                      </DashboardPopup>
                     </div>
 
                   ))}

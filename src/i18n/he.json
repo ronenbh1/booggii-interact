@@ -52,8 +52,11 @@
   "chooseActivityOrSentiment":" בחר מצב רוח או פעילות",
   "close":"סגור",
   "save":"שמור",
+  "confirm":"אשר",
   "inCar": "ברכב",
   "medication": "תרופה",
   "wakeUp": "יקיצה",
-  "addReport": "הוסף דיווח"
+  "addReport": "הוסף דיווח",
+  "AfterYouDeleteThisItemYouCantRestoreIt":"לאחר מחיקת הפריט לא תוכל לבצע שחזור",
+  "DoYouWantToApplyTheChanges":"האם אתה מעוניין לאשר את השינויים?"
 }
