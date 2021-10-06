@@ -229,7 +229,7 @@ const Home = () => {
         </Button>
         {routes.map(({ path, title, icon, color }) => (
           <Link to={`${url}/${path}`} css={styles.link} key={path}>
-            <Button fullWidth css={styles.drawerItem} title={title}>
+            <Button fullWidth css={styles.drawerItem} title={title} onClick={() => dispatch(toggleDrawer())}>
               <div css={styles.iconWrapper} style={{ color }}>
                 {icon}
               </div>

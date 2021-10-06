@@ -317,17 +317,17 @@ const Dashboard = () => {
   const [userName, setUserName] = useState("");
   const [updateEvents, setUpdateEvents] = useState(false);
 
+  Auth.currentAuthenticatedUser()
+  .then(user => {
+    setUserName(user.getUsername());
+  })
+
+  console.log("userName", userName);
 
   async function fetchEvents() {
-    let username = await Auth.currentAuthenticatedUser()
-    .then(user => {
-        return user.getUsername();
-      })
   
-    setUserName(username)
-    console.log("userName", userName);
     const reports = await DataStore.query(Event, (c) =>
-      c.userName("eq", username), 
+      c.userName("eq", userName), 
       {
         sort: s => s.startLocalTime(SortDirection.DESCENDING),
       }
@@ -398,14 +398,14 @@ const Dashboard = () => {
                       <div className={classes.text_field_container}>
                         <div className="date_display">
                         <div> {t('startTime')}</div>
-                          {event.startLocalTime ? moment(event.startLocalTime).format('DD/MM/YY hh:mm') : '--/--/-- --:--'}
+                          {event.startLocalTime ? moment(event.startLocalTime).format('DD/MM/YY HH:mm') : '--/--/-- --:--'}
                         </div>
 
                       </div>
                       <div className={classes.text_field_container}>
                         <div className="date_display">
                           <div> {t('endTime')}</div>
-                          {event.endLocalTime ? moment(event.endLocalTime).format('DD/MM/YY hh:mm') : '--/--/-- --:--'}
+                          {event.endLocalTime ? moment(event.endLocalTime).format('DD/MM/YY HH:mm') : '--/--/-- --:--'}
                         </div>
                       </div>
                       <div className={classes.icons_container}>
@@ -464,7 +464,7 @@ const Dashboard = () => {
                           <TextField
                             label="Start"
                             type="datetime-local"
-                            defaultValue={popup.startLocalTime ? moment(popup.startLocalTime).format("YYYY-MM-DDThh:mm") : ""}
+                            defaultValue={popup.startLocalTime ? moment(popup.startLocalTime).format("YYYY-MM-DDTHH:mm") : ""}
                             className={classes.textField_popup}
                             InputLabelProps={{
                               shrink: true,
@@ -479,7 +479,7 @@ const Dashboard = () => {
                           <TextField
                             label="End"
                             type="datetime-local"
-                            defaultValue={popup.endLocalTime ? moment(popup.endLocalTime).format("YYYY-MM-DDThh:mm") : ""}
+                            defaultValue={popup.endLocalTime ? moment(popup.endLocalTime).format("YYYY-MM-DDTHH:mm") : ""}
                             className={classes.textField_popup}
                             InputLabelProps={{
                               shrink: true,
