@@ -317,17 +317,16 @@ const Dashboard = () => {
   const [userName, setUserName] = useState("");
   const [updateEvents, setUpdateEvents] = useState(false);
 
-  Auth.currentAuthenticatedUser()
-  .then(user => {
-    setUserName(user.getUsername());
-  })
-
-  console.log("userName", userName);
-
   async function fetchEvents() {
+    let username = await Auth.currentAuthenticatedUser()
+    .then(user => {
+        return user.getUsername();
+      })
   
+    setUserName(username)
+    console.log("userName", userName);
     const reports = await DataStore.query(Event, (c) =>
-      c.userName("eq", userName), 
+      c.userName("eq", username), 
       {
         sort: s => s.startLocalTime(SortDirection.DESCENDING),
       }
